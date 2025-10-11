@@ -3,486 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>গোল্ড লোন ম্যানেজমেন্ট সিস্টেম</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Soleman Jewellers - Ledger</title>
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* CSS কোড: অ্যাপটির ডিজাইন */
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1E1E1E;
+            --primary-text: #E0E0E0;
+            --secondary-text: #A0A0A0;
+            --red-color: #F25C54;
+            --green-color: #4CAF50;
+            --blue-accent: #3F51B5;
         }
 
-        @keyframes pulse-glow {
-            0%, 100% { text-shadow: 0 0 5px #0ff, 0 0 10px #0ff; }
-            50% { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff; }
-        }
-        
-        @keyframes modal-swoop {
-            from { opacity: 0; transform: translateY(-50px) scale(0.9); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            font-family: 'Hind Siliguri', sans-serif;
-            background: linear-gradient(to right top, #051937, #001a35, #001a32, #00192d, #011827);
-            color: #e2e8f0;
-        }
-        .neon-text {
-            color: #fff;
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #00aaff, 0 0 30px #00aaff, 0 0 40px #00aaff;
-        }
-        .neon-box {
-            border: 2px solid #08d9d6;
-            background-color: rgba(9, 30, 61, 0.5);
-            backdrop-filter: blur(5px);
-            box-shadow: 0 0 10px #08d9d6, 0 0 20px #08d9d6, inset 0 0 15px rgba(8, 217, 214, 0.5);
-            transition: all 0.3s ease-in-out;
-        }
-        .neon-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px #08d9d6, 0 0 30px #08d9d6, inset 0 0 20px rgba(8, 217, 214, 0.7);
-        }
-        .neon-button {
-            border: 2px solid #ff2e63;
-            color: #ff2e63;
-            background-color: transparent;
-            text-shadow: 0 0 5px #ff2e63;
-            box-shadow: 0 0 5px #ff2e63, inset 0 0 5px #ff2e63;
-            transition: all 0.3s ease;
-        }
-        .neon-button:hover {
-            color: #fff;
-            background-color: #ff2e63;
-            box-shadow: 0 0 10px #ff2e63, 0 0 20px #ff2e63, 0 0 40px #ff2e63;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
         }
 
-        .modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
-        .modal:not(.is-open) { opacity: 0; visibility: hidden; }
-        .is-open { opacity: 1; visibility: visible; }
-        .modal-content { animation: modal-swoop 0.4s ease-out forwards; }
+        .app-container {
+            max-width: 450px;
+            margin: auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a192f; }
-        ::-webkit-scrollbar-thumb { background: #08d9d6; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #ff2e63; }
+        /* Header */
+        .app-header {
+            padding: 15px;
+            background-color: var(--surface-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-header h1 {
+            font-size: 20px;
+        }
+
+        /* Summary Section */
+        .summary-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .summary-box {
+            background-color: var(--surface-color);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .summary-box p {
+            font-size: 14px;
+            color: var(--secondary-text);
+        }
+
+        .summary-box .amount {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .summary-box .amount.give {
+            color: var(--red-color);
+        }
+
+        .summary-box .amount.get {
+            color: var(--green-color);
+        }
         
-        .file-input-label {
+        /* Customer List */
+        .customer-list-container {
+            padding: 0 15px;
+            flex-grow: 1;
+        }
+
+        .customer-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
             cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            border: 1px solid #08d9d6;
-            background-color: transparent;
-            font-weight: 500;
-            color: #08d9d6;
-            transition: background-color 0.2s;
         }
-        .file-input-label:hover {
-            background-color: rgba(8, 217, 214, 0.2);
+        
+        .customer-item:last-child {
+            border-bottom: none;
         }
-        .table-row-animate {
-            animation: fadeIn 0.5s ease-out forwards;
+
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--blue-accent);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 15px;
         }
+
+        .customer-info {
+            flex-grow: 1;
+        }
+        
+        .customer-info .name {
+            font-size: 16px;
+        }
+
+        .customer-info .timestamp {
+            font-size: 12px;
+            color: var(--secondary-text);
+        }
+
+        .customer-balance .amount {
+            font-weight: bold;
+        }
+
+        .customer-balance .label {
+            font-size: 12px;
+            color: var(--secondary-text);
+            text-align: right;
+        }
+
+        .amount.red { color: var(--red-color); }
+        .amount.green { color: var(--green-color); }
+
+        /* Floating Add Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            background-color: var(--red-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Modal for adding customer/transaction */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--surface-color);
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background-color: #333;
+            color: var(--primary-text);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-buttons .save-btn {
+            background-color: var(--green-color);
+            color: white;
+        }
+        .modal-buttons .cancel-btn {
+            background-color: #555;
+            color: white;
+        }
+        
+        /* Customer Detail Page */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--surface-color);
+        }
+
+        .back-btn {
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .detail-summary {
+            padding: 20px;
+            background-color: var(--surface-color);
+            margin: 15px;
+            border-radius: 8px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+        .transaction-info p {
+            font-size: 16px;
+        }
+        .transaction-info span {
+            font-size: 12px;
+            color: var(--secondary-text);
+        }
+
+        .detail-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-color);
+        }
+        .detail-actions button {
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .detail-actions .gave-btn {
+            background-color: var(--red-color);
+            color: white;
+        }
+        .detail-actions .got-btn {
+            background-color: var(--green-color);
+            color: white;
+        }
+
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div id="app" class="container mx-auto p-4 md:p-6 lg:p-8 max-w-7xl">
+    <div class="app-container">
 
-        <header class="neon-box rounded-xl p-6 mb-6 flex flex-col md:flex-row justify-between items-center">
-            <div>
-                <h1 class="text-3xl md:text-4xl font-bold neon-text" style="animation: pulse-glow 3s infinite;">গোল্ড লোন ম্যানেজমেন্ট সিস্টেম</h1>
-                <p class="text-gray-400 mt-1">ভবিষ্যতের পথে আপনার ব্যবসাকে এগিয়ে নিন</p>
-            </div>
-            <div class="flex items-center space-x-4 mt-4 md:mt-0">
-                 <button id="aiAssistantBtn" class="bg-purple-600 text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-transform transform hover:-translate-y-1 duration-300 flex items-center gap-2">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.932a.5.5 0 00-.966 0l-1.12 3.435a.5.5 0 01-.475.345H6.385a.5.5 0 00-.328.885l2.9 2.1a.5.5 0 01.182.557l-1.12 3.435a.5.5 0 00.74.582l2.9-2.1a.5.5 0 01.556 0l2.9 2.1a.5.5 0 00.74-.582l-1.12-3.435a.5.5 0 01.182-.557l2.9-2.1a.5.5 0 00-.328-.885h-3.036a.5.5 0 01-.475-.345L11.983 1.932zM10 12a4 4 0 100-8 4 4 0 000 8z" /></svg>
-                     AI অ্যাসিস্ট্যান্ট
-                 </button>
-                 <button id="addLoanBtn" class="neon-button font-semibold py-2 px-6 rounded-lg">
-                    নতুন লোন যোগ করুন
-                 </button>
-            </div>
-        </header>
+        <div id="main-page" class="page active">
+            <header class="app-header">
+                <h1>Soleman Jewellers</h1>
+                <span>&#x1F4B0;</span> </header>
 
-        <div id="loader" class="text-center py-10">
-            <svg class="animate-spin h-8 w-8 text-cyan-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="mt-2 text-gray-400">লোড হচ্ছে...</p>
+            <main>
+                <section class="summary-section">
+                    <div class="summary-box">
+                        <p>You will give (পাবেন)</p>
+                        <div class="amount give" id="total-give">₹0</div>
+                    </div>
+                    <div class="summary-box">
+                        <p>You will get (পাবেন)</p>
+                        <div class="amount get" id="total-get">₹0</div>
+                    </div>
+                </section>
+
+                <div class="customer-list-container" id="customer-list">
+                    </div>
+            </main>
+
+            <div class="fab" id="add-customer-btn">+</div>
         </div>
 
-        <div id="dashboard" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6" style="animation: fadeIn 0.5s ease-out;">
-            <!-- Dashboard cards -->
-            <div class="neon-box p-6 flex items-center space-x-4"><div class="bg-blue-900 p-3 rounded-full"><svg class="h-6 w-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div><p class="text-sm text-gray-400">মোট সক্রিয় লোন</p><p id="totalActiveLoans" class="text-2xl font-bold">0</p></div></div>
-            <div class="neon-box p-6 flex items-center space-x-4"><div class="bg-green-900 p-3 rounded-full"><svg class="h-6 w-6 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M15 21h-6a2 2 0 01-2-2V5a2 2 0 012-2h6a2 2 0 012 2v14a2 2 0 01-2 2z"></path></svg></div><div><p class="text-sm text-gray-400">মোট আসল টাকা</p><p id="totalPrincipal" class="text-2xl font-bold">₹0</p></div></div>
-            <div class="neon-box p-6 flex items-center space-x-4"><div class="bg-yellow-900 p-3 rounded-full"><svg class="h-6 w-6 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0122 12c0 3.771-2.502 7-6.343 6.657z"></path></svg></div><div><p class="text-sm text-gray-400">মোট সুদ অর্জিত</p><p id="totalInterest" class="text-2xl font-bold">₹0</p></div></div>
-            <div class="neon-box p-6 flex items-center space-x-4"><div class="bg-pink-900 p-3 rounded-full"><svg class="h-6 w-6 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><div><p class="text-sm text-gray-400">মোট জমা হয়েছে</p><p id="totalPaid" class="text-2xl font-bold">₹0</p></div></div>
-        </div>
-
-        <main id="mainContent" class="hidden neon-box rounded-xl overflow-hidden" style="animation: fadeIn 0.7s ease-out;">
-            <div class="p-6 border-b border-cyan-500/30"><h2 class="text-xl font-bold">সমস্ত লোনের তালিকা</h2></div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-300">
-                    <thead class="text-xs text-cyan-300 uppercase bg-black/20">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">গ্রাহকের নাম</th>
-                            <th scope="col" class="px-6 py-3">আসল (রুপি)</th>
-                            <th scope="col" class="px-6 py-3">লোনের তারিখ</th>
-                            <th scope="col" class="px-6 py-3">মোট বকেয়া (রুপি)</th>
-                            <th scope="col" class="px-6 py-3">স্ট্যাটাস</th>
-                            <th scope="col" class="px-6 py-3 text-center">কার্যক্রম</th>
-                        </tr>
-                    </thead>
-                    <tbody id="loanList"></tbody>
-                </table>
-                 <div id="no-loans" class="hidden text-center py-12 px-6"><svg class="mx-auto h-12 w-12 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg><h3 class="mt-2 text-sm font-semibold text-gray-200">কোনো লোন পাওয়া যায়নি</h3><p class="mt-1 text-sm text-gray-400">শুরু করতে একটি নতুন লোন যোগ করুন।</p></div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Modals -->
-    <div id="loanModal" class="modal fixed inset-0 bg-black/70 flex justify-center items-center p-4">
-        <div class="modal-content neon-box rounded-xl w-full max-w-2xl max-h-full overflow-y-auto"><form id="loanForm" class="p-8 space-y-6"><div class="flex justify-between items-center"><h2 id="modalTitle" class="text-2xl font-bold neon-text">নতুন লোন</h2><button type="button" class="closeModalBtn text-gray-400 hover:text-red-400">&times;</button></div><input type="hidden" id="loanId"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label for="customerName" class="block text-sm font-medium text-cyan-300 mb-1">গ্রাহকের নাম</label><input type="text" id="customerName" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></div><div><label for="customerPhone" class="block text-sm font-medium text-cyan-300 mb-1">ফোন নম্বর</label><input type="tel" id="customerPhone" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></div></div><div><label for="customerAddress" class="block text-sm font-medium text-cyan-300 mb-1">ঠিকানা</label><textarea id="customerAddress" rows="2" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></textarea></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label for="principalAmount" class="block text-sm font-medium text-cyan-300 mb-1">আসল টাকা (রুপি)</label><input type="number" id="principalAmount" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></div><div><label for="loanDate" class="block text-sm font-medium text-cyan-300 mb-1">লোনের তারিখ</label><input type="date" id="loanDate" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></div></div><div><label class="block text-sm font-medium text-cyan-300 mb-1">বন্ধক রাখা সোনার বিবরণ</label><div id="goldItemsContainer" class="space-y-3"></div><button type="button" id="addGoldItemBtn" class="mt-2 text-sm font-semibold text-cyan-400 hover:text-cyan-200">+ আরও একটি আইটেম যোগ করুন</button></div><div><label class="block text-sm font-medium text-cyan-300 mb-1">গ্রাহকের ডকুমেন্ট</label><input type="file" id="customerDocument" class="hidden" accept="image/*,.pdf"><label for="customerDocument" class="file-input-label">ডকুমেন্ট বাছাই করুন</label><span id="customerDocumentName" class="ml-3 text-sm text-gray-400"></span></div><div class="flex justify-end pt-4"><button type="button" class="closeModalBtn mr-3 bg-gray-700 text-gray-200 font-semibold py-2 px-6 rounded-lg hover:bg-gray-600">বাতিল</button><button type="submit" class="neon-button font-semibold py-2 px-6 rounded-lg">সেভ করুন</button></div></form></div>
-    </div>
-    
-    <div id="paymentModal" class="modal fixed inset-0 bg-black/70 flex justify-center items-center p-4">
-        <div class="modal-content neon-box rounded-xl w-full max-w-md"><form id="paymentForm" class="p-8"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold neon-text">পেমেন্ট যোগ করুন</h2><button type="button" class="closePaymentModalBtn text-gray-400 hover:text-red-400">&times;</button></div><input type="hidden" id="paymentLoanId"><div class="space-y-4"><div><label for="paymentAmount" class="block text-sm font-medium text-cyan-300 mb-1">টাকার পরিমাণ (রুপি)</label><input type="number" id="paymentAmount" class="w-full bg-transparent border-gray-500 rounded-lg" required></div><div><label for="paymentDate" class="block text-sm font-medium text-cyan-300 mb-1">পেমেন্টের তারিখ</label><input type="date" id="paymentDate" class="w-full bg-transparent border-gray-500 rounded-lg" required></div><div><label class="block text-sm font-medium text-cyan-300 mb-1">পেমেন্ট রিসিট (ঐচ্ছিক)</label><input type="file" id="paymentReceipt" class="hidden" accept="image/*,.pdf"><label for="paymentReceipt" class="file-input-label">রিসিট বাছাই করুন</label><span id="paymentReceiptName" class="ml-3 text-sm text-gray-400"></span></div></div><div class="flex justify-end mt-8"><button type="button" class="closePaymentModalBtn mr-3 bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-6 rounded-lg">বাতিল</button><button type="submit" class="neon-button font-semibold py-2 px-6 rounded-lg">যোগ করুন</button></div></form></div>
-    </div>
-    
-    <div id="detailsModal" class="modal fixed inset-0 bg-black/70 flex justify-center items-center p-4">
-        <div class="modal-content neon-box rounded-xl w-full max-w-4xl max-h-full overflow-y-auto"><div class="p-8"><div class="flex justify-between items-start"><h2 class="text-2xl font-bold neon-text mb-4">লোনের বিবরণ</h2><button type="button" class="closeDetailsModalBtn text-gray-400 hover:text-red-400 text-2xl font-bold">&times;</button></div><div id="detailsContent" class="space-y-6"></div></div></div>
-    </div>
-
-    <div id="aiAssistantModal" class="modal fixed inset-0 bg-black/70 flex justify-center items-center p-4">
-        <div class="modal-content neon-box rounded-xl w-full max-w-2xl"><div class="p-8"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold neon-text">AI অ্যাসিস্ট্যান্ট রিপোর্ট</h2><button type="button" class="closeAiModalBtn text-gray-400 hover:text-red-400 text-2xl font-bold">&times;</button></div><div id="aiInsightsContent" class="space-y-4 text-gray-300"></div></div></div>
-    </div>
-
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, collection, query, addDoc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, listAll } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
-
-        // --- DO NOT EDIT ---
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-gold-loan-app';
-        // --- END DO NOT EDIT ---
-
-        let app, auth, db, storage, userId;
-        let loansUnsubscribe = null;
-        let allLoans = [];
-
-        const INTEREST_RATE_MONTHLY = 0.03; // 3%
-
-        // UI Elements
-        const loader = document.getElementById('loader');
-        const dashboard = document.getElementById('dashboard');
-        const mainContent = document.getElementById('mainContent');
-        const loanList = document.getElementById('loanList');
-        const loanModal = document.getElementById('loanModal');
-        const loanForm = document.getElementById('loanForm');
-        const paymentModal = document.getElementById('paymentModal');
-        const paymentForm = document.getElementById('paymentForm');
-        const detailsModal = document.getElementById('detailsModal');
-        const noLoansDiv = document.getElementById('no-loans');
-        const aiAssistantModal = document.getElementById('aiAssistantModal');
-        const aiAssistantBtn = document.getElementById('aiAssistantBtn');
-        const goldItemsContainer = document.getElementById('goldItemsContainer');
-        const addGoldItemBtn = document.getElementById('addGoldItemBtn');
-        
-        document.getElementById('customerDocument').addEventListener('change', e => document.getElementById('customerDocumentName').textContent = e.target.files[0] ? e.target.files[0].name : '');
-        document.getElementById('paymentReceipt').addEventListener('change', e => document.getElementById('paymentReceiptName').textContent = e.target.files[0] ? e.target.files[0].name : '');
-
-        // --- Helper Functions ---
-        const formatCurrency = (amount) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
-        const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' });
-
-        function calculateLoanDetails(loan) {
-            const principal = loan.principalAmount;
-            const loanDate = new Date(loan.loanDate);
-            const now = new Date();
-            let monthsPassed = (now.getFullYear() - loanDate.getFullYear()) * 12 - loanDate.getMonth() + now.getMonth();
-            monthsPassed = monthsPassed < 0 ? 0 : monthsPassed;
-            const totalInterest = principal * INTEREST_RATE_MONTHLY * monthsPassed;
-            const totalPaid = (loan.payments || []).reduce((sum, p) => sum + p.amount, 0);
-            const outstandingBalance = (principal + totalInterest) - totalPaid;
-            return { totalInterest, totalPaid, outstandingBalance };
-        }
-
-        // --- Modal Management ---
-        function openModal(modal) { modal.classList.add('is-open'); }
-        function closeModal(modal) { modal.classList.remove('is-open'); }
-
-        document.getElementById('addLoanBtn').addEventListener('click', () => {
-            loanForm.reset();
-            document.getElementById('modalTitle').textContent = 'নতুন লোন যোগ করুন';
-            document.getElementById('loanId').value = '';
-            goldItemsContainer.innerHTML = '';
-            addGoldItemHtml();
-            document.getElementById('loanDate').valueAsDate = new Date();
-            document.getElementById('customerDocumentName').textContent = '';
-            openModal(loanModal);
-        });
-        
-        document.querySelectorAll('.closeModalBtn, .closePaymentModalBtn, .closeDetailsModalBtn, .closeAiModalBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                [loanModal, paymentModal, detailsModal, aiAssistantModal].forEach(closeModal);
-            });
-        });
-
-        function addGoldItemHtml() {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'grid grid-cols-11 gap-2 items-center';
-            itemDiv.innerHTML = `<input type="text" placeholder="বিবরণ" class="col-span-5 bg-transparent border-gray-500 rounded-md text-sm" required><input type="number" step="0.01" placeholder="ওজন (গ্রাম)" class="col-span-3 bg-transparent border-gray-500 rounded-md text-sm" required><input type="text" placeholder="ক্যারেট" class="col-span-2 bg-transparent border-gray-500 rounded-md text-sm" required><button type="button" class="col-span-1 text-red-500 hover:text-red-400 remove-item-btn text-2xl">&times;</button>`;
-            goldItemsContainer.appendChild(itemDiv);
-        }
-        addGoldItemBtn.addEventListener('click', addGoldItemHtml);
-        goldItemsContainer.addEventListener('click', (e) => {
-            if (e.target.classList.contains('remove-item-btn')) e.target.parentElement.remove();
-        });
-
-        // --- AI Assistant ---
-        aiAssistantBtn.addEventListener('click', () => {
-            const insights = generateAIInsights(allLoans);
-            const contentEl = document.getElementById('aiInsightsContent');
-            if (insights.error) {
-                contentEl.innerHTML = `<p>${insights.error}</p>`;
-            } else {
-                contentEl.innerHTML = `
-                    <div class="p-4 bg-black/20 rounded-lg flex items-start gap-4">
-                        <span class="text-2xl">💡</span>
-                        <p>${insights.busiestMonth}</p>
-                    </div>
-                     <div class="p-4 bg-black/20 rounded-lg flex items-start gap-4">
-                        <span class="text-2xl">💰</span>
-                        <p>${insights.avgLoanAmount}</p>
-                    </div>
-                     <div class="p-4 bg-black/20 rounded-lg flex items-start gap-4">
-                        <span class="text-2xl">📈</span>
-                        <p>${insights.loanHealth}</p>
-                    </div>
-                `;
-            }
-            openModal(aiAssistantModal);
-        });
-
-        function generateAIInsights(loans) {
-            if (!loans || loans.length === 0) return { error: "विश्लेषण করার জন্য যথেষ্ট ডেটা নেই।" };
-
-            const insights = {};
-            const monthNames = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
-            const monthCounts = loans.reduce((acc, loan) => {
-                const month = new Date(loan.loanDate).getMonth();
-                acc[month] = (acc[month] || 0) + 1;
-                return acc;
-            }, {});
-            let busiestMonthIndex = Object.keys(monthCounts).reduce((a, b) => monthCounts[a] > monthCounts[b] ? a : b, -1);
-            insights.busiestMonth = busiestMonthIndex != -1 ? `ব্যবসার জন্য আপনার সবচেয়ে ব্যস্ত মাস হলো <strong>${monthNames[busiestMonthIndex]}</strong>।` : "কোনো নির্দিষ্ট ব্যস্ত মাস নেই।";
-
-            const totalPrincipal = loans.reduce((sum, l) => sum + l.principalAmount, 0);
-            insights.avgLoanAmount = `আপনার গড় লোনের পরিমাণ <strong>${formatCurrency(totalPrincipal / loans.length)}</strong>।`;
-
-            const active = loans.filter(l => l.status === 'active').length;
-            const healthRatio = (loans.length - active) / (active || 1);
-            insights.loanHealth = healthRatio > 1 ? "আপনার লোন পরিশোধের হার বেশ ভালো।" : (healthRatio > 0.5 ? "সক্রিয় লোনের তুলনায় পরিশোধিত লোনের সংখ্যা স্বাস্থ্যকর।" : "বেশিরভাগ লোন এখনও সক্রিয় রয়েছে। পরিশোধের দিকে নজর দিন।");
-            
-            return insights;
-        }
-
-
-        // --- Rendering ---
-        function renderLoans() {
-            loanList.innerHTML = '';
-            noLoansDiv.classList.toggle('hidden', allLoans.length > 0);
-            allLoans.forEach((loan, index) => {
-                const { outstandingBalance } = calculateLoanDetails(loan);
-                const isActive = loan.status === 'active';
-                const row = document.createElement('tr');
-                row.className = `border-b border-cyan-500/20 transition-colors duration-200 ${isActive ? 'hover:bg-cyan-900/40' : 'bg-gray-800/20 hover:bg-gray-800/40'} table-row-animate`;
-                row.style.animationDelay = `${index * 50}ms`;
-                row.innerHTML = `<td class="px-6 py-4 font-medium whitespace-nowrap">${loan.customerName}</td>
-                    <td class="px-6 py-4">${formatCurrency(loan.principalAmount)}</td>
-                    <td class="px-6 py-4">${formatDate(loan.loanDate)}</td>
-                    <td class="px-6 py-4 font-semibold ${outstandingBalance > 0 ? 'text-red-400' : 'text-green-400'}">${formatCurrency(outstandingBalance)}</td>
-                    <td class="px-6 py-4"><span class="px-2 py-1 text-xs font-medium rounded-full ${isActive ? 'bg-green-900 text-green-300' : 'bg-gray-700 text-gray-300'}">${isActive ? 'সক্রিয়' : 'বন্ধ'}</span></td>
-                    <td class="px-6 py-4 text-center"><button class="view-details-btn text-cyan-400 hover:text-cyan-200 font-medium" data-id="${loan.id}">বিবরণ</button> ${isActive ? `<button class="add-payment-btn ml-4 text-pink-400 hover:text-pink-200 font-medium" data-id="${loan.id}">পেমেন্ট</button>` : ''}</td>`;
-                loanList.appendChild(row);
-            });
-            updateDashboard();
-        }
-        
-        function updateDashboard() {
-            const activeLoans = allLoans.filter(l => l.status === 'active');
-            const totalPrincipal = activeLoans.reduce((sum, l) => sum + l.principalAmount, 0);
-            const { totalInterest, totalPaid } = allLoans.reduce((acc, loan) => {
-                const details = calculateLoanDetails(loan);
-                acc.totalInterest += details.totalInterest;
-                acc.totalPaid += details.totalPaid;
-                return acc;
-            }, { totalInterest: 0, totalPaid: 0 });
-
-            document.getElementById('totalActiveLoans').textContent = activeLoans.length;
-            document.getElementById('totalPrincipal').textContent = formatCurrency(totalPrincipal);
-            document.getElementById('totalInterest').textContent = formatCurrency(totalInterest);
-            document.getElementById('totalPaid').textContent = formatCurrency(totalPaid);
-        }
-        
-        function renderLoanDetails(loanId) {
-             const loan = allLoans.find(l => l.id === loanId);
-             if(!loan) return;
-             
-             const { totalInterest, totalPaid, outstandingBalance } = calculateLoanDetails(loan);
-             const docsHtml = (loan.documents || []).map(doc => `<a href="${doc.url}" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"></path></svg>${doc.name}</a>`).join('') || '<p class="text-gray-400">কোনো ডকুমেন্ট নেই।</p>';
-             const paymentsHtml = (loan.payments || []).length > 0 ? (loan.payments || []).map(p => `<div class="flex justify-between items-center p-2 rounded bg-black/20"><div class="text-sm"><p>${formatDate(p.paymentDate)}</p>${p.receiptUrl ? `<a href="${p.receiptUrl}" target="_blank" class="text-xs text-blue-400 hover:underline">রিসিট দেখুন</a>` : ''}</div><p class="font-semibold">${formatCurrency(p.amount)}</p></div>`).join('') : '<p class="text-gray-400">কোনো পেমেন্ট নেই।</p>';
-
-             document.getElementById('detailsContent').innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
-                    <div><strong class="text-gray-400">গ্রাহকের নাম:</strong> ${loan.customerName}</div>
-                    <div><strong class="text-gray-400">ফোন:</strong> ${loan.customerPhone}</div>
-                    <div class="md:col-span-2"><strong class="text-gray-400">ঠিকানা:</strong> ${loan.customerAddress}</div>
+        <div id="detail-page" class="page">
+            <header class="detail-header">
+                <span class="back-btn" id="back-to-main">&larr;</span>
+                <h2 id="detail-customer-name"></h2>
+            </header>
+            <main>
+                <div class="detail-summary">
+                    <p>Net Balance (মোট বাকি)</p>
+                    <div class="amount" id="detail-customer-balance"></div>
                 </div>
-                <div class="border-t border-cyan-500/20 pt-4 mt-4"><h3 class="text-lg font-semibold mb-2">লোনের সারসংক্ষেপ</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"><div class="bg-black/20 p-3 rounded-lg"><div class="text-xs text-gray-400">আসল</div><div class="font-bold text-lg">${formatCurrency(loan.principalAmount)}</div></div><div class="bg-black/20 p-3 rounded-lg"><div class="text-xs text-gray-400">মোট সুদ</div><div class="font-bold text-lg">${formatCurrency(totalInterest)}</div></div><div class="bg-black/20 p-3 rounded-lg"><div class="text-xs text-gray-400">মোট জমা</div><div class="font-bold text-lg">${formatCurrency(totalPaid)}</div></div><div class="bg-red-900/30 p-3 rounded-lg"><div class="text-xs text-red-300">মোট বকেয়া</div><div class="font-bold text-lg text-red-400">${formatCurrency(outstandingBalance)}</div></div></div></div>
-                <div class="border-t border-cyan-500/20 pt-4 mt-4 grid grid-cols-1 md:grid-cols-3 gap-x-8"><div class="md:col-span-1"><h3 class="text-lg font-semibold mb-2">সোনার বিবরণ</h3><ul class="list-disc list-inside space-y-1 text-sm">${loan.goldItems.map(item => `<li>${item.description} - ${item.weightGrams} গ্রাম, ${item.purity} ক্যারেট</li>`).join('')}</ul></div><div class="md:col-span-1 mt-4 md:mt-0"><h3 class="text-lg font-semibold mb-2">গ্রাহকের ডকুমেন্ট</h3><div class="space-y-2 text-sm">${docsHtml}</div></div><div class="md:col-span-1 mt-4 md:mt-0"><h3 class="text-lg font-semibold mb-2">পেমেন্টের ইতিহাস</h3><div class="max-h-40 overflow-y-auto text-sm space-y-1">${paymentsHtml}</div></div></div>
-                <div class="border-t border-cyan-500/20 pt-4 mt-4 flex justify-end items-center space-x-4"><p class="text-sm text-gray-400 mr-auto">স্ট্যাটাস: <strong class="${loan.status === 'active' ? 'text-green-400' : 'text-gray-300'}">${loan.status === 'active' ? 'সক্রিয়' : 'বন্ধ'}</strong></p><button class="delete-loan-btn bg-red-900/50 text-red-300 font-semibold py-2 px-4 rounded-lg hover:bg-red-900/80" data-id="${loan.id}">মুছুন</button>${loan.status === 'active' ? `<button class="toggle-status-btn bg-yellow-600/50 text-yellow-200 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-600/80" data-id="${loan.id}" data-status="closed">বন্ধ করুন</button>` : `<button class="toggle-status-btn bg-green-600/50 text-green-200 font-semibold py-2 px-4 rounded-lg hover:bg-green-600/80" data-id="${loan.id}" data-status="active">সক্রিয় করুন</button>`}</div>`;
-             openModal(detailsModal);
-        }
+                <div id="transaction-list">
+                    </div>
+            </main>
+            <div class="detail-actions">
+                <button class="gave-btn" id="add-gave-btn">You Gave ₹</button>
+                <button class="got-btn" id="add-got-btn">You Got ₹</button>
+            </div>
+        </div>
+    </div>
 
-        // Firestore & Storage Logic
-        async function uploadFile(file, path) {
-            if (!file) return null;
-            const storageRef = ref(storage, path);
-            await uploadBytes(storageRef, file);
-            return getDownloadURL(storageRef);
-        }
+    <div id="customer-modal" class="modal">
+        <div class="modal-content">
+            <h2>Add New Customer</h2>
+            <input type="text" id="customer-name-input" placeholder="Customer Name">
+            <div class="modal-buttons">
+                <button class="cancel-btn" id="cancel-customer-btn">Cancel</button>
+                <button class="save-btn" id="save-customer-btn">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="transaction-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="transaction-modal-title">Add Transaction</h2>
+            <input type="number" id="transaction-amount-input" placeholder="Amount">
+            <input type="text" id="transaction-note-input" placeholder="Details (Optional)">
+            <div class="modal-buttons">
+                <button class="cancel-btn" id="cancel-transaction-btn">Cancel</button>
+                <button class="save-btn" id="save-transaction-btn">Save</button>
+            </div>
+        </div>
+    </div>
 
-        loanForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true; submitBtn.textContent = 'সেভ হচ্ছে...';
 
-            const loanId = document.getElementById('loanId').value;
-            const customerDocFile = document.getElementById('customerDocument').files[0];
-            const goldItems = Array.from(goldItemsContainer.querySelectorAll('div.grid')).map(node => ({ description: node.children[0].value, weightGrams: parseFloat(node.children[1].value), purity: node.children[2].value }));
-            const loanData = { customerName: document.getElementById('customerName').value, customerPhone: document.getElementById('customerPhone').value, customerAddress: document.getElementById('customerAddress').value, principalAmount: parseFloat(document.getElementById('principalAmount').value), loanDate: document.getElementById('loanDate').value, goldItems: goldItems, interestRateMonthly: INTEREST_RATE_MONTHLY, documents: [], status: 'active', payments: [], createdAt: serverTimestamp() };
+    <script>
+        // JavaScript কোড: অ্যাপটির কার্যকারিতা
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const mainPage = document.getElementById('main-page');
+            const detailPage = document.getElementById('detail-page');
+            const customerModal = document.getElementById('customer-modal');
+            const transactionModal = document.getElementById('transaction-modal');
 
-            try {
-                const docRef = await addDoc(collection(db, `artifacts/${appId}/users/${userId}/gold_loans`), loanData);
-                if (customerDocFile) {
-                    const filePath = `artifacts/${appId}/users/${userId}/loans/${docRef.id}/documents/${customerDocFile.name}`;
-                    const downloadURL = await uploadFile(customerDocFile, filePath);
-                    if (downloadURL) await updateDoc(docRef, { documents: [{ name: customerDocFile.name, url: downloadURL }] });
-                }
-                closeModal(loanModal);
-            } catch (error) { console.error("Error saving loan: ", error); alert("ত্রুটি: লোন সেভ করা যায়নি।"); } 
-            finally { submitBtn.disabled = false; submitBtn.textContent = 'সেভ করুন'; }
-        });
-        
-        paymentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true; submitBtn.textContent = 'যোগ হচ্ছে...';
+            // --- State Management (using localStorage) ---
+            let state = {
+                customers: JSON.parse(localStorage.getItem('customers')) || [],
+                activeCustomerId: null,
+                transactionType: null // 'gave' or 'got'
+            };
 
-            const loanId = document.getElementById('paymentLoanId').value;
-            const receiptFile = document.getElementById('paymentReceipt').files[0];
-            const loan = allLoans.find(l => l.id === loanId);
-            if (!loan) return;
-            
-            let receiptUrl = null;
-            if (receiptFile) {
-                const filePath = `artifacts/${appId}/users/${userId}/loans/${loanId}/receipts/${Date.now()}-${receiptFile.name}`;
-                receiptUrl = await uploadFile(receiptFile, filePath);
-            }
-            const newPayment = { amount: parseFloat(document.getElementById('paymentAmount').value), paymentDate: document.getElementById('paymentDate').value, receiptUrl: receiptUrl };
-            
-            try {
-                const docRef = doc(db, `artifacts/${appId}/users/${userId}/gold_loans`, loanId);
-                await updateDoc(docRef, { payments: [...(loan.payments || []), newPayment] });
-                closeModal(paymentModal);
-                paymentForm.reset();
-                document.getElementById('paymentReceiptName').textContent = '';
-            } catch (error) { console.error("Error adding payment:", error); alert("ত্রুটি: পেমেন্ট যোগ করা যায়নি।"); }
-            finally { submitBtn.disabled = false; submitBtn.textContent = 'যোগ করুন'; }
-        });
+            // --- Render Functions ---
+            function render() {
+                // Clear existing content
+                document.getElementById('customer-list').innerHTML = '';
+                
+                let totalGet = 0;
+                let totalGive = 0;
 
-        document.body.addEventListener('click', async (e) => {
-            const target = e.target.closest('button');
-            if (!target) return;
+                state.customers.forEach(customer => {
+                    // Calculate balance for each customer
+                    let balance = 0;
+                    customer.transactions.forEach(t => {
+                        if (t.type === 'get') balance += t.amount;
+                        if (t.type === 'give') balance -= t.amount;
+                    });
+                    
+                    if(balance > 0) totalGet += balance;
+                    if(balance < 0) totalGive += Math.abs(balance);
 
-            const loanId = target.dataset.id;
-            if (target.classList.contains('view-details-btn')) renderLoanDetails(loanId);
-            if (target.classList.contains('add-payment-btn')) {
-                document.getElementById('paymentLoanId').value = loanId;
-                document.getElementById('paymentDate').valueAsDate = new Date();
-                paymentForm.reset();
-                document.getElementById('paymentReceiptName').textContent = '';
-                openModal(paymentModal);
-            }
-            if (target.classList.contains('toggle-status-btn')) {
-                const newStatus = target.dataset.status;
-                const docRef = doc(db, `artifacts/${appId}/users/${userId}/gold_loans`, loanId);
-                await updateDoc(docRef, { status: newStatus });
-                closeModal(detailsModal);
-            }
-            if (target.classList.contains('delete-loan-btn')) {
-                if (prompt("এই লোনটি এবং এর সাথে যুক্ত সমস্ত ডকুমেন্ট মুছে ফেলতে নিশ্চিত? নিশ্চিত করতে 'delete' টাইপ করুন।") === 'delete') {
-                    try {
-                        await deleteDoc(doc(db, `artifacts/${appId}/users/${userId}/gold_loans`, loanId));
-                        const folderRef = ref(storage, `artifacts/${appId}/users/${userId}/loans/${loanId}`);
-                        const res = await listAll(folderRef);
-                        await Promise.all(res.items.map(deleteObject));
-                        res.prefixes.forEach(async folder => {
-                           const nestedRes = await listAll(folder);
-                           await Promise.all(nestedRes.items.map(deleteObject));
-                        });
-                        closeModal(detailsModal);
-                    } catch(error) { console.error("Error deleting loan:", error); alert("ত্রুটি: লোন মোছা যায়নি।"); }
-                }
-            }
-        });
-
-        async function setupFirestoreListeners() {
-            if (loansUnsubscribe) loansUnsubscribe();
-            const q = query(collection(db, `artifacts/${appId}/users/${userId}/gold_loans`));
-            loansUnsubscribe = onSnapshot(q, (snapshot) => {
-                allLoans = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                allLoans.sort((a, b) => {
-                    if (a.status === 'active' && b.status !== 'active') return -1;
-                    if (a.status !== 'active' && b.status === 'active') return 1;
-                    return new Date(b.createdAt?.toDate() || 0) - new Date(a.createdAt?.toDate() || 0);
-                });
-                renderLoans();
-            }, console.error);
-        }
-
-        async function initialize() {
-            try {
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                storage = getStorage(app);
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        await setupFirestoreListeners();
-                        loader.classList.add('hidden');
-                        dashboard.classList.remove('hidden');
-                        mainContent.classList.remove('hidden');
-                    }
+                    // Create customer list item
+                    const item = document.createElement('div');
+                    item.className = 'customer-item';
+                    item.dataset.id = customer.id;
+                    item.innerHTML = `
+                        <div class="customer-avatar">${customer.name.substring(0, 2).toUpperCase()}</div>
+                        <div class="customer-info">
+                            <p class="name">${customer.name}</p>
+                            <span class="timestamp">Last updated: ${customer.transactions.length > 0 ? new Date(customer.transactions[customer.transactions.length-1].date).toLocaleDateString() : 'No transactions'}</span>
+                        </div>
+                        <div class="customer-balance">
+                            <p class="amount ${balance >= 0 ? 'green' : 'red'}">₹${Math.abs(balance).toLocaleString()}</p>
+                            <p class="label">${balance >= 0 ? "You'll Get" : "You'll Give"}</p>
+                        </div>
+                    `;
+                    item.addEventListener('click', () => showDetailPage(customer.id));
+                    document.getElementById('customer-list').appendChild(item);
                 });
 
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
-                else await signInAnonymously(auth);
-            } catch (error) {
-                console.error("Initialization failed:", error);
-                loader.innerText = "অ্যাপ্লিকেশন শুরু করতে ব্যর্থ হয়েছে।";
+                // Update total summary
+                document.getElementById('total-get').innerText = `₹${totalGet.toLocaleString()}`;
+                document.getElementById('total-give').innerText = `₹${totalGive.toLocaleString()}`;
             }
-        }
-        
-        initialize();
+
+            function renderDetailPage() {
+                const customer = state.customers.find(c => c.id === state.activeCustomerId);
+                if (!customer) return;
+
+                document.getElementById('detail-customer-name').innerText = customer.name;
+                
+                let balance = 0;
+                const transactionList = document.getElementById('transaction-list');
+                transactionList.innerHTML = '';
+
+                customer.transactions.forEach(t => {
+                    balance += (t.type === 'get' ? t.amount : -t.amount);
+                    const item = document.createElement('div');
+                    item.className = 'transaction-item';
+                    item.innerHTML = `
+                        <div class="transaction-info">
+                            <p>${t.note || (t.type === 'get' ? 'Amount Received' : 'Amount Paid')}</p>
+                            <span>${new Date(t.date).toLocaleString()}</span>
+                        </div>
+                        <p class="amount ${t.type === 'get' ? 'green' : 'red'}">₹${t.amount.toLocaleString()}</p>
+                    `;
+                    transactionList.appendChild(item);
+                });
+                
+                const balanceEl = document.getElementById('detail-customer-balance');
+                balanceEl.innerText = `₹${Math.abs(balance).toLocaleString()}`;
+                balanceEl.className = `amount ${balance >= 0 ? 'green' : 'red'}`;
+            }
+
+            // --- Page Navigation ---
+            function showMainPage() {
+                mainPage.classList.add('active');
+                detailPage.classList.remove('active');
+                state.activeCustomerId = null;
+                render();
+            }
+
+            function showDetailPage(customerId) {
+                state.activeCustomerId = customerId;
+                mainPage.classList.remove('active');
+                detailPage.classList.add('active');
+                renderDetailPage();
+            }
+
+            // --- Modal Handling ---
+            function showCustomerModal() {
+                customerModal.style.display = 'flex';
+            }
+            function hideCustomerModal() {
+                customerModal.style.display = 'none';
+                document.getElementById('customer-name-input').value = '';
+            }
+
+            function showTransactionModal(type) {
+                state.transactionType = type;
+                document.getElementById('transaction-modal-title').innerText = type === 'gave' ? 'You Gave' : 'You Got';
+                transactionModal.style.display = 'flex';
+            }
+            function hideTransactionModal() {
+                transactionModal.style.display = 'none';
+                document.getElementById('transaction-amount-input').value = '';
+                document.getElementById('transaction-note-input').value = '';
+                state.transactionType = null;
+            }
+            
+            // --- Data Logic ---
+            function saveState() {
+                localStorage.setItem('customers', JSON.stringify(state.customers));
+            }
+
+            function addCustomer() {
+                const name = document.getElementById('customer-name-input').value.trim();
+                if (!name) {
+                    alert('Please enter a customer name.');
+                    return;
+                }
+                const newCustomer = {
+                    id: Date.now(),
+                    name: name,
+                    transactions: []
+                };
+                state.customers.push(newCustomer);
+                saveState();
+                render();
+                hideCustomerModal();
+            }
+            
+            function addTransaction() {
+                const amount = parseFloat(document.getElementById('transaction-amount-input').value);
+                const note = document.getElementById('transaction-note-input').value.trim();
+                if (isNaN(amount) || amount <= 0) {
+                    alert('Please enter a valid amount.');
+                    return;
+                }
+                
+                const customer = state.customers.find(c => c.id === state.activeCustomerId);
+                if (customer) {
+                    const newTransaction = {
+                        id: Date.now(),
+                        type: state.transactionType === 'gave' ? 'give' : 'get',
+                        amount: amount,
+                        note: note,
+                        date: new Date().toISOString()
+                    };
+                    customer.transactions.push(newTransaction);
+                    saveState();
+                    renderDetailPage();
+                    hideTransactionModal();
+                }
+            }
+
+
+            // --- Event Listeners ---
+            document.getElementById('add-customer-btn').addEventListener('click', showCustomerModal);
+            document.getElementById('cancel-customer-btn').addEventListener('click', hideCustomerModal);
+            document.getElementById('save-customer-btn').addEventListener('click', addCustomer);
+
+            document.getElementById('back-to-main').addEventListener('click', showMainPage);
+            
+            document.getElementById('add-gave-btn').addEventListener('click', () => showTransactionModal('gave'));
+            document.getElementById('add-got-btn').addEventListener('click', () => showTransactionModal('got'));
+            document.getElementById('cancel-transaction-btn').addEventListener('click', hideTransactionModal);
+            document.getElementById('save-transaction-btn').addEventListener('click', addTransaction);
+
+            // Initial render
+            render();
+        });
     </script>
-
 </body>
 </html>
-
