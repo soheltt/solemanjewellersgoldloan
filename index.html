@@ -7,124 +7,124 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 5px #0ff, 0 0 10px #0ff; }
+            50% { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff; }
+        }
+        
+        @keyframes modal-swoop {
+            from { opacity: 0; transform: translateY(-50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            background-color: #f0f2f5;
+            background: linear-gradient(to right top, #051937, #001a35, #001a32, #00192d, #011827);
+            color: #e2e8f0;
         }
-        .modal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #00aaff, 0 0 30px #00aaff, 0 0 40px #00aaff;
         }
-        .modal:not(.is-open) {
-            opacity: 0;
-            visibility: hidden;
+        .neon-box {
+            border: 2px solid #08d9d6;
+            background-color: rgba(9, 30, 61, 0.5);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 10px #08d9d6, 0 0 20px #08d9d6, inset 0 0 15px rgba(8, 217, 214, 0.5);
+            transition: all 0.3s ease-in-out;
         }
-        .is-open {
-            opacity: 1;
-            visibility: visible;
+        .neon-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px #08d9d6, 0 0 30px #08d9d6, inset 0 0 20px rgba(8, 217, 214, 0.7);
         }
-        /* Custom scrollbar for better aesthetics */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .neon-button {
+            border: 2px solid #ff2e63;
+            color: #ff2e63;
+            background-color: transparent;
+            text-shadow: 0 0 5px #ff2e63;
+            box-shadow: 0 0 5px #ff2e63, inset 0 0 5px #ff2e63;
+            transition: all 0.3s ease;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        .neon-button:hover {
+            color: #fff;
+            background-color: #ff2e63;
+            box-shadow: 0 0 10px #ff2e63, 0 0 20px #ff2e63, 0 0 40px #ff2e63;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
+
+        .modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal:not(.is-open) { opacity: 0; visibility: hidden; }
+        .is-open { opacity: 1; visibility: visible; }
+        .modal-content { animation: modal-swoop 0.4s ease-out forwards; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a192f; }
+        ::-webkit-scrollbar-thumb { background: #08d9d6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff2e63; }
+        
         .file-input-label {
             cursor: pointer;
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
-            border: 1px solid #d1d5db;
-            background-color: white;
+            border: 1px solid #08d9d6;
+            background-color: transparent;
             font-weight: 500;
-            color: #4f46e5;
+            color: #08d9d6;
             transition: background-color 0.2s;
         }
         .file-input-label:hover {
-            background-color: #eef2ff;
+            background-color: rgba(8, 217, 214, 0.2);
+        }
+        .table-row-animate {
+            animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
 </head>
-<body class="antialiased text-gray-800">
+<body class="antialiased">
 
-    <!-- Main Container -->
     <div id="app" class="container mx-auto p-4 md:p-6 lg:p-8 max-w-7xl">
 
-        <!-- Header -->
-        <header class="bg-white shadow-md rounded-xl p-6 mb-6 flex flex-col md:flex-row justify-between items-center">
+        <header class="neon-box rounded-xl p-6 mb-6 flex flex-col md:flex-row justify-between items-center">
             <div>
-                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">গোল্ড লোন ম্যানেজমেন্ট সিস্টেম</h1>
-                <p class="text-gray-500">আপনার সমস্ত গোল্ড লোনের হিসাব এক জায়গায়</p>
+                <h1 class="text-3xl md:text-4xl font-bold neon-text" style="animation: pulse-glow 3s infinite;">গোল্ড লোন ম্যানেজমেন্ট সিস্টেম</h1>
+                <p class="text-gray-400 mt-1">ভবিষ্যতের পথে আপনার ব্যবসাকে এগিয়ে নিন</p>
             </div>
-            <button id="addLoanBtn" class="mt-4 md:mt-0 bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-transform transform hover:-translate-y-1 duration-300">
-                নতুন লোন যোগ করুন
-            </button>
+            <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                 <button id="aiAssistantBtn" class="bg-purple-600 text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-transform transform hover:-translate-y-1 duration-300 flex items-center gap-2">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.932a.5.5 0 00-.966 0l-1.12 3.435a.5.5 0 01-.475.345H6.385a.5.5 0 00-.328.885l2.9 2.1a.5.5 0 01.182.557l-1.12 3.435a.5.5 0 00.74.582l2.9-2.1a.5.5 0 01.556 0l2.9 2.1a.5.5 0 00.74-.582l-1.12-3.435a.5.5 0 01.182-.557l2.9-2.1a.5.5 0 00-.328-.885h-3.036a.5.5 0 01-.475-.345L11.983 1.932zM10 12a4 4 0 100-8 4 4 0 000 8z" /></svg>
+                     AI অ্যাসিস্ট্যান্ট
+                 </button>
+                 <button id="addLoanBtn" class="neon-button font-semibold py-2 px-6 rounded-lg">
+                    নতুন লোন যোগ করুন
+                 </button>
+            </div>
         </header>
 
-        <!-- Loading Spinner -->
         <div id="loader" class="text-center py-10">
-            <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="animate-spin h-8 w-8 text-cyan-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <p class="mt-2 text-gray-600">লোড হচ্ছে...</p>
+            <p class="mt-2 text-gray-400">লোড হচ্ছে...</p>
         </div>
 
-        <!-- Dashboard Stats -->
-        <div id="dashboard" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <div class="bg-white p-6 rounded-xl shadow-md flex items-center space-x-4 transition-transform transform hover:-translate-y-1 duration-300">
-                <div class="bg-blue-100 p-3 rounded-full">
-                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">মোট সক্রিয় লোন</p>
-                    <p id="totalActiveLoans" class="text-2xl font-bold">0</p>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-md flex items-center space-x-4 transition-transform transform hover:-translate-y-1 duration-300">
-                <div class="bg-green-100 p-3 rounded-full">
-                     <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M15 21h-6a2 2 0 01-2-2V5a2 2 0 012-2h6a2 2 0 012 2v14a2 2 0 01-2 2z"></path></svg>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">মোট আসল টাকা</p>
-                    <p id="totalPrincipal" class="text-2xl font-bold">₹0</p>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-md flex items-center space-x-4 transition-transform transform hover:-translate-y-1 duration-300">
-                <div class="bg-yellow-100 p-3 rounded-full">
-                    <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0122 12c0 3.771-2.502 7-6.343 6.657z"></path></svg>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">মোট সুদ অর্জিত</p>
-                    <p id="totalInterest" class="text-2xl font-bold">₹0</p>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-md flex items-center space-x-4 transition-transform transform hover:-translate-y-1 duration-300">
-                <div class="bg-pink-100 p-3 rounded-full">
-                    <svg class="h-6 w-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">মোট জমা হয়েছে</p>
-                    <p id="totalPaid" class="text-2xl font-bold">₹0</p>
-                </div>
-            </div>
+        <div id="dashboard" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6" style="animation: fadeIn 0.5s ease-out;">
+            <!-- Dashboard cards -->
+            <div class="neon-box p-6 flex items-center space-x-4"><div class="bg-blue-900 p-3 rounded-full"><svg class="h-6 w-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div><p class="text-sm text-gray-400">মোট সক্রিয় লোন</p><p id="totalActiveLoans" class="text-2xl font-bold">0</p></div></div>
+            <div class="neon-box p-6 flex items-center space-x-4"><div class="bg-green-900 p-3 rounded-full"><svg class="h-6 w-6 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M15 21h-6a2 2 0 01-2-2V5a2 2 0 012-2h6a2 2 0 012 2v14a2 2 0 01-2 2z"></path></svg></div><div><p class="text-sm text-gray-400">মোট আসল টাকা</p><p id="totalPrincipal" class="text-2xl font-bold">₹0</p></div></div>
+            <div class="neon-box p-6 flex items-center space-x-4"><div class="bg-yellow-900 p-3 rounded-full"><svg class="h-6 w-6 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0122 12c0 3.771-2.502 7-6.343 6.657z"></path></svg></div><div><p class="text-sm text-gray-400">মোট সুদ অর্জিত</p><p id="totalInterest" class="text-2xl font-bold">₹0</p></div></div>
+            <div class="neon-box p-6 flex items-center space-x-4"><div class="bg-pink-900 p-3 rounded-full"><svg class="h-6 w-6 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><div><p class="text-sm text-gray-400">মোট জমা হয়েছে</p><p id="totalPaid" class="text-2xl font-bold">₹0</p></div></div>
         </div>
 
-        <!-- Loan List -->
-        <main id="mainContent" class="hidden bg-white shadow-md rounded-xl overflow-hidden">
-            <div class="p-6 border-b">
-                <h2 class="text-xl font-bold text-gray-800">সমস্ত লোনের তালিকা</h2>
-                 <p class="text-gray-500 mt-1">এখানে আপনার সমস্ত সক্রিয় এবং বন্ধ হওয়া লোন দেখুন।</p>
-            </div>
+        <main id="mainContent" class="hidden neon-box rounded-xl overflow-hidden" style="animation: fadeIn 0.7s ease-out;">
+            <div class="p-6 border-b border-cyan-500/30"><h2 class="text-xl font-bold">সমস্ত লোনের তালিকা</h2></div>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-600">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <table class="w-full text-sm text-left text-gray-300">
+                    <thead class="text-xs text-cyan-300 uppercase bg-black/20">
                         <tr>
                             <th scope="col" class="px-6 py-3">গ্রাহকের নাম</th>
                             <th scope="col" class="px-6 py-3">আসল (রুপি)</th>
@@ -134,140 +134,36 @@
                             <th scope="col" class="px-6 py-3 text-center">কার্যক্রম</th>
                         </tr>
                     </thead>
-                    <tbody id="loanList">
-                        <!-- Loan items will be injected here -->
-                    </tbody>
+                    <tbody id="loanList"></tbody>
                 </table>
-                 <div id="no-loans" class="hidden text-center py-12 px-6">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                    </svg>
-                    <h3 class="mt-2 text-sm font-semibold text-gray-900">কোনো লোন পাওয়া যায়নি</h3>
-                    <p class="mt-1 text-sm text-gray-500">শুরু করতে একটি নতুন লোন যোগ করুন।</p>
-                </div>
+                 <div id="no-loans" class="hidden text-center py-12 px-6"><svg class="mx-auto h-12 w-12 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg><h3 class="mt-2 text-sm font-semibold text-gray-200">কোনো লোন পাওয়া যায়নি</h3><p class="mt-1 text-sm text-gray-400">শুরু করতে একটি নতুন লোন যোগ করুন।</p></div>
             </div>
         </main>
     </div>
 
-    <!-- Add/Edit Loan Modal -->
-    <div id="loanModal" class="modal fixed inset-0 bg-gray-900 bg-opacity-60 flex justify-center items-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-full overflow-y-auto">
-            <form id="loanForm" class="p-8 space-y-6">
-                <div class="flex justify-between items-center">
-                    <h2 id="modalTitle" class="text-2xl font-bold text-gray-800">নতুন লোন যোগ করুন</h2>
-                    <button type="button" class="closeModalBtn text-gray-400 hover:text-gray-600">
-                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-                <input type="hidden" id="loanId">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="customerName" class="block text-sm font-medium text-gray-700 mb-1">গ্রাহকের নাম</label>
-                        <input type="text" id="customerName" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                    <div>
-                        <label for="customerPhone" class="block text-sm font-medium text-gray-700 mb-1">ফোন নম্বর</label>
-                        <input type="tel" id="customerPhone" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                </div>
-                <div>
-                    <label for="customerAddress" class="block text-sm font-medium text-gray-700 mb-1">ঠিকানা</label>
-                    <textarea id="customerAddress" rows="2" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
-                </div>
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="principalAmount" class="block text-sm font-medium text-gray-700 mb-1">আসল টাকা (রুপি)</label>
-                        <input type="number" id="principalAmount" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                    <div>
-                        <label for="loanDate" class="block text-sm font-medium text-gray-700 mb-1">লোনের তারিখ</label>
-                        <input type="date" id="loanDate" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">বন্ধক রাখা সোনার বিবরণ</label>
-                    <div id="goldItemsContainer" class="space-y-3">
-                        <!-- Gold items will be added here -->
-                    </div>
-                    <button type="button" id="addGoldItemBtn" class="mt-2 text-sm font-semibold text-indigo-600 hover:text-indigo-800">+ আরও একটি আইটেম যোগ করুন</button>
-                </div>
-                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">গ্রাহকের ডকুমেন্ট</label>
-                    <input type="file" id="customerDocument" class="hidden" accept="image/*,.pdf">
-                    <label for="customerDocument" class="file-input-label">ডকুমেন্ট বাছাই করুন</label>
-                    <span id="customerDocumentName" class="ml-3 text-sm text-gray-600"></span>
-                </div>
-                <div class="flex justify-end pt-4">
-                    <button type="button" class="closeModalBtn mr-3 bg-gray-100 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-200 transition duration-300">বাতিল করুন</button>
-                    <button type="submit" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-300">সেভ করুন</button>
-                </div>
-            </form>
-        </div>
+    <!-- Modals -->
+    <div id="loanModal" class="modal fixed inset-0 bg-black/70 flex justify-center items-center p-4">
+        <div class="modal-content neon-box rounded-xl w-full max-w-2xl max-h-full overflow-y-auto"><form id="loanForm" class="p-8 space-y-6"><div class="flex justify-between items-center"><h2 id="modalTitle" class="text-2xl font-bold neon-text">নতুন লোন</h2><button type="button" class="closeModalBtn text-gray-400 hover:text-red-400">&times;</button></div><input type="hidden" id="loanId"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label for="customerName" class="block text-sm font-medium text-cyan-300 mb-1">গ্রাহকের নাম</label><input type="text" id="customerName" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></div><div><label for="customerPhone" class="block text-sm font-medium text-cyan-300 mb-1">ফোন নম্বর</label><input type="tel" id="customerPhone" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></div></div><div><label for="customerAddress" class="block text-sm font-medium text-cyan-300 mb-1">ঠিকানা</label><textarea id="customerAddress" rows="2" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></textarea></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label for="principalAmount" class="block text-sm font-medium text-cyan-300 mb-1">আসল টাকা (রুপি)</label><input type="number" id="principalAmount" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></div><div><label for="loanDate" class="block text-sm font-medium text-cyan-300 mb-1">লোনের তারিখ</label><input type="date" id="loanDate" class="w-full bg-transparent border-gray-500 rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" required></div></div><div><label class="block text-sm font-medium text-cyan-300 mb-1">বন্ধক রাখা সোনার বিবরণ</label><div id="goldItemsContainer" class="space-y-3"></div><button type="button" id="addGoldItemBtn" class="mt-2 text-sm font-semibold text-cyan-400 hover:text-cyan-200">+ আরও একটি আইটেম যোগ করুন</button></div><div><label class="block text-sm font-medium text-cyan-300 mb-1">গ্রাহকের ডকুমেন্ট</label><input type="file" id="customerDocument" class="hidden" accept="image/*,.pdf"><label for="customerDocument" class="file-input-label">ডকুমেন্ট বাছাই করুন</label><span id="customerDocumentName" class="ml-3 text-sm text-gray-400"></span></div><div class="flex justify-end pt-4"><button type="button" class="closeModalBtn mr-3 bg-gray-700 text-gray-200 font-semibold py-2 px-6 rounded-lg hover:bg-gray-600">বাতিল</button><button type="submit" class="neon-button font-semibold py-2 px-6 rounded-lg">সেভ করুন</button></div></form></div>
     </div>
     
-    <!-- Add Payment Modal -->
-    <div id="paymentModal" class="modal fixed inset-0 bg-gray-900 bg-opacity-60 flex justify-center items-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
-            <form id="paymentForm" class="p-8">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">পেমেন্ট যোগ করুন</h2>
-                    <button type="button" class="closePaymentModalBtn text-gray-400 hover:text-gray-600">
-                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-                <input type="hidden" id="paymentLoanId">
-                <div class="space-y-4">
-                     <div>
-                        <label for="paymentAmount" class="block text-sm font-medium text-gray-700 mb-1">টাকার পরিমাণ (রুপি)</label>
-                        <input type="number" id="paymentAmount" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                    <div>
-                        <label for="paymentDate" class="block text-sm font-medium text-gray-700 mb-1">পেমেন্টের তারিখ</label>
-                        <input type="date" id="paymentDate" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                    </div>
-                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">পেমেন্ট রিসিট (ঐচ্ছিক)</label>
-                        <input type="file" id="paymentReceipt" class="hidden" accept="image/*,.pdf">
-                        <label for="paymentReceipt" class="file-input-label">রিসিট বাছাই করুন</label>
-                        <span id="paymentReceiptName" class="ml-3 text-sm text-gray-600"></span>
-                    </div>
-                </div>
-                <div class="flex justify-end mt-8">
-                    <button type="button" class="closePaymentModalBtn mr-3 bg-gray-100 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-200 transition duration-300">বাতিল করুন</button>
-                    <button type="submit" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-300">যোগ করুন</button>
-                </div>
-            </form>
-        </div>
+    <div id="paymentModal" class="modal fixed inset-0 bg-black/70 flex justify-center items-center p-4">
+        <div class="modal-content neon-box rounded-xl w-full max-w-md"><form id="paymentForm" class="p-8"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold neon-text">পেমেন্ট যোগ করুন</h2><button type="button" class="closePaymentModalBtn text-gray-400 hover:text-red-400">&times;</button></div><input type="hidden" id="paymentLoanId"><div class="space-y-4"><div><label for="paymentAmount" class="block text-sm font-medium text-cyan-300 mb-1">টাকার পরিমাণ (রুপি)</label><input type="number" id="paymentAmount" class="w-full bg-transparent border-gray-500 rounded-lg" required></div><div><label for="paymentDate" class="block text-sm font-medium text-cyan-300 mb-1">পেমেন্টের তারিখ</label><input type="date" id="paymentDate" class="w-full bg-transparent border-gray-500 rounded-lg" required></div><div><label class="block text-sm font-medium text-cyan-300 mb-1">পেমেন্ট রিসিট (ঐচ্ছিক)</label><input type="file" id="paymentReceipt" class="hidden" accept="image/*,.pdf"><label for="paymentReceipt" class="file-input-label">রিসিট বাছাই করুন</label><span id="paymentReceiptName" class="ml-3 text-sm text-gray-400"></span></div></div><div class="flex justify-end mt-8"><button type="button" class="closePaymentModalBtn mr-3 bg-gray-700 hover:bg-gray-600 text-gray-200 font-semibold py-2 px-6 rounded-lg">বাতিল</button><button type="submit" class="neon-button font-semibold py-2 px-6 rounded-lg">যোগ করুন</button></div></form></div>
     </div>
     
-    <!-- Loan Details Modal -->
-    <div id="detailsModal" class="modal fixed inset-0 bg-gray-900 bg-opacity-60 flex justify-center items-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-full overflow-y-auto">
-            <div class="p-8">
-                <div class="flex justify-between items-start">
-                     <h2 class="text-2xl font-bold text-gray-800 mb-4">লোনের বিবরণ</h2>
-                     <button type="button" class="closeDetailsModalBtn text-gray-400 hover:text-gray-600">
-                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                     </button>
-                </div>
-                <div id="detailsContent" class="space-y-6">
-                    <!-- Details will be injected here -->
-                </div>
-            </div>
-        </div>
+    <div id="detailsModal" class="modal fixed inset-0 bg-black/70 flex justify-center items-center p-4">
+        <div class="modal-content neon-box rounded-xl w-full max-w-4xl max-h-full overflow-y-auto"><div class="p-8"><div class="flex justify-between items-start"><h2 class="text-2xl font-bold neon-text mb-4">লোনের বিবরণ</h2><button type="button" class="closeDetailsModalBtn text-gray-400 hover:text-red-400 text-2xl font-bold">&times;</button></div><div id="detailsContent" class="space-y-6"></div></div></div>
+    </div>
+
+    <div id="aiAssistantModal" class="modal fixed inset-0 bg-black/70 flex justify-center items-center p-4">
+        <div class="modal-content neon-box rounded-xl w-full max-w-2xl"><div class="p-8"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold neon-text">AI অ্যাসিস্ট্যান্ট রিপোর্ট</h2><button type="button" class="closeAiModalBtn text-gray-400 hover:text-red-400 text-2xl font-bold">&times;</button></div><div id="aiInsightsContent" class="space-y-4 text-gray-300"></div></div></div>
     </div>
 
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, doc, onSnapshot, collection, query,
-            addDoc, setDoc, updateDoc, deleteDoc, serverTimestamp
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { 
-            getStorage, ref, uploadBytes, getDownloadURL, deleteObject, listAll
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+        import { getFirestore, doc, onSnapshot, collection, query, addDoc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, listAll } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         // --- DO NOT EDIT ---
         const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
@@ -280,28 +176,24 @@
 
         const INTEREST_RATE_MONTHLY = 0.03; // 3%
 
-        // --- UI Elements ---
+        // UI Elements
         const loader = document.getElementById('loader');
         const dashboard = document.getElementById('dashboard');
         const mainContent = document.getElementById('mainContent');
         const loanList = document.getElementById('loanList');
         const loanModal = document.getElementById('loanModal');
         const loanForm = document.getElementById('loanForm');
-        const modalTitle = document.getElementById('modalTitle');
-        const addLoanBtn = document.getElementById('addLoanBtn');
-        const addGoldItemBtn = document.getElementById('addGoldItemBtn');
-        const goldItemsContainer = document.getElementById('goldItemsContainer');
         const paymentModal = document.getElementById('paymentModal');
         const paymentForm = document.getElementById('paymentForm');
         const detailsModal = document.getElementById('detailsModal');
         const noLoansDiv = document.getElementById('no-loans');
+        const aiAssistantModal = document.getElementById('aiAssistantModal');
+        const aiAssistantBtn = document.getElementById('aiAssistantBtn');
+        const goldItemsContainer = document.getElementById('goldItemsContainer');
+        const addGoldItemBtn = document.getElementById('addGoldItemBtn');
         
-        document.getElementById('customerDocument').addEventListener('change', e => {
-            document.getElementById('customerDocumentName').textContent = e.target.files[0] ? e.target.files[0].name : '';
-        });
-        document.getElementById('paymentReceipt').addEventListener('change', e => {
-            document.getElementById('paymentReceiptName').textContent = e.target.files[0] ? e.target.files[0].name : '';
-        });
+        document.getElementById('customerDocument').addEventListener('change', e => document.getElementById('customerDocumentName').textContent = e.target.files[0] ? e.target.files[0].name : '');
+        document.getElementById('paymentReceipt').addEventListener('change', e => document.getElementById('paymentReceiptName').textContent = e.target.files[0] ? e.target.files[0].name : '');
 
         // --- Helper Functions ---
         const formatCurrency = (amount) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
@@ -311,26 +203,21 @@
             const principal = loan.principalAmount;
             const loanDate = new Date(loan.loanDate);
             const now = new Date();
-            
-            let monthsPassed = (now.getFullYear() - loanDate.getFullYear()) * 12;
-            monthsPassed -= loanDate.getMonth();
-            monthsPassed += now.getMonth();
-            monthsPassed = monthsPassed <= 0 ? 0 : monthsPassed;
-            
+            let monthsPassed = (now.getFullYear() - loanDate.getFullYear()) * 12 - loanDate.getMonth() + now.getMonth();
+            monthsPassed = monthsPassed < 0 ? 0 : monthsPassed;
             const totalInterest = principal * INTEREST_RATE_MONTHLY * monthsPassed;
-            const totalPaid = loan.payments.reduce((sum, p) => sum + p.amount, 0);
+            const totalPaid = (loan.payments || []).reduce((sum, p) => sum + p.amount, 0);
             const outstandingBalance = (principal + totalInterest) - totalPaid;
-
-            return { totalInterest, totalPaid, outstandingBalance, monthsPassed };
+            return { totalInterest, totalPaid, outstandingBalance };
         }
 
         // --- Modal Management ---
         function openModal(modal) { modal.classList.add('is-open'); }
         function closeModal(modal) { modal.classList.remove('is-open'); }
 
-        addLoanBtn.addEventListener('click', () => {
+        document.getElementById('addLoanBtn').addEventListener('click', () => {
             loanForm.reset();
-            modalTitle.textContent = 'নতুন লোন যোগ করুন';
+            document.getElementById('modalTitle').textContent = 'নতুন লোন যোগ করুন';
             document.getElementById('loanId').value = '';
             goldItemsContainer.innerHTML = '';
             addGoldItemHtml();
@@ -339,61 +226,88 @@
             openModal(loanModal);
         });
         
-        document.querySelectorAll('.closeModalBtn').forEach(btn => btn.addEventListener('click', () => closeModal(loanModal)));
-        document.querySelectorAll('.closePaymentModalBtn').forEach(btn => btn.addEventListener('click', () => closeModal(paymentModal)));
-        document.querySelectorAll('.closeDetailsModalBtn').forEach(btn => btn.addEventListener('click', () => closeModal(detailsModal)));
+        document.querySelectorAll('.closeModalBtn, .closePaymentModalBtn, .closeDetailsModalBtn, .closeAiModalBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                [loanModal, paymentModal, detailsModal, aiAssistantModal].forEach(closeModal);
+            });
+        });
 
-        // --- Dynamic Gold Item Form ---
         function addGoldItemHtml() {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'grid grid-cols-11 gap-2 items-center';
-            itemDiv.innerHTML = `
-                <input type="text" placeholder="বিবরণ" class="col-span-5 border-gray-300 rounded-md shadow-sm text-sm" required>
-                <input type="number" step="0.01" placeholder="ওজন (গ্রাম)" class="col-span-3 border-gray-300 rounded-md shadow-sm text-sm" required>
-                <input type="text" placeholder="ক্যারেট" class="col-span-2 border-gray-300 rounded-md shadow-sm text-sm" required>
-                <button type="button" class="col-span-1 text-red-500 hover:text-red-700 remove-item-btn">&times;</button>
-            `;
+            itemDiv.innerHTML = `<input type="text" placeholder="বিবরণ" class="col-span-5 bg-transparent border-gray-500 rounded-md text-sm" required><input type="number" step="0.01" placeholder="ওজন (গ্রাম)" class="col-span-3 bg-transparent border-gray-500 rounded-md text-sm" required><input type="text" placeholder="ক্যারেট" class="col-span-2 bg-transparent border-gray-500 rounded-md text-sm" required><button type="button" class="col-span-1 text-red-500 hover:text-red-400 remove-item-btn text-2xl">&times;</button>`;
             goldItemsContainer.appendChild(itemDiv);
         }
-        
         addGoldItemBtn.addEventListener('click', addGoldItemHtml);
         goldItemsContainer.addEventListener('click', (e) => {
-            if (e.target.classList.contains('remove-item-btn')) {
-                e.target.parentElement.remove();
-            }
+            if (e.target.classList.contains('remove-item-btn')) e.target.parentElement.remove();
         });
 
-        // --- Rendering Functions ---
-        function renderLoans() {
-            if (!userId) return;
-            loanList.innerHTML = '';
-            
-            if (allLoans.length === 0) {
-                 noLoansDiv.classList.remove('hidden');
+        // --- AI Assistant ---
+        aiAssistantBtn.addEventListener('click', () => {
+            const insights = generateAIInsights(allLoans);
+            const contentEl = document.getElementById('aiInsightsContent');
+            if (insights.error) {
+                contentEl.innerHTML = `<p>${insights.error}</p>`;
             } else {
-                 noLoansDiv.classList.add('hidden');
+                contentEl.innerHTML = `
+                    <div class="p-4 bg-black/20 rounded-lg flex items-start gap-4">
+                        <span class="text-2xl">💡</span>
+                        <p>${insights.busiestMonth}</p>
+                    </div>
+                     <div class="p-4 bg-black/20 rounded-lg flex items-start gap-4">
+                        <span class="text-2xl">💰</span>
+                        <p>${insights.avgLoanAmount}</p>
+                    </div>
+                     <div class="p-4 bg-black/20 rounded-lg flex items-start gap-4">
+                        <span class="text-2xl">📈</span>
+                        <p>${insights.loanHealth}</p>
+                    </div>
+                `;
             }
+            openModal(aiAssistantModal);
+        });
 
-            allLoans.forEach(loan => {
+        function generateAIInsights(loans) {
+            if (!loans || loans.length === 0) return { error: "विश्लेषण করার জন্য যথেষ্ট ডেটা নেই।" };
+
+            const insights = {};
+            const monthNames = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            const monthCounts = loans.reduce((acc, loan) => {
+                const month = new Date(loan.loanDate).getMonth();
+                acc[month] = (acc[month] || 0) + 1;
+                return acc;
+            }, {});
+            let busiestMonthIndex = Object.keys(monthCounts).reduce((a, b) => monthCounts[a] > monthCounts[b] ? a : b, -1);
+            insights.busiestMonth = busiestMonthIndex != -1 ? `ব্যবসার জন্য আপনার সবচেয়ে ব্যস্ত মাস হলো <strong>${monthNames[busiestMonthIndex]}</strong>।` : "কোনো নির্দিষ্ট ব্যস্ত মাস নেই।";
+
+            const totalPrincipal = loans.reduce((sum, l) => sum + l.principalAmount, 0);
+            insights.avgLoanAmount = `আপনার গড় লোনের পরিমাণ <strong>${formatCurrency(totalPrincipal / loans.length)}</strong>।`;
+
+            const active = loans.filter(l => l.status === 'active').length;
+            const healthRatio = (loans.length - active) / (active || 1);
+            insights.loanHealth = healthRatio > 1 ? "আপনার লোন পরিশোধের হার বেশ ভালো।" : (healthRatio > 0.5 ? "সক্রিয় লোনের তুলনায় পরিশোধিত লোনের সংখ্যা স্বাস্থ্যকর।" : "বেশিরভাগ লোন এখনও সক্রিয় রয়েছে। পরিশোধের দিকে নজর দিন।");
+            
+            return insights;
+        }
+
+
+        // --- Rendering ---
+        function renderLoans() {
+            loanList.innerHTML = '';
+            noLoansDiv.classList.toggle('hidden', allLoans.length > 0);
+            allLoans.forEach((loan, index) => {
                 const { outstandingBalance } = calculateLoanDetails(loan);
                 const isActive = loan.status === 'active';
                 const row = document.createElement('tr');
-                row.className = `border-b transition-colors duration-200 ${isActive ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 hover:bg-gray-100'}`;
-                row.innerHTML = `
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${loan.customerName}</td>
+                row.className = `border-b border-cyan-500/20 transition-colors duration-200 ${isActive ? 'hover:bg-cyan-900/40' : 'bg-gray-800/20 hover:bg-gray-800/40'} table-row-animate`;
+                row.style.animationDelay = `${index * 50}ms`;
+                row.innerHTML = `<td class="px-6 py-4 font-medium whitespace-nowrap">${loan.customerName}</td>
                     <td class="px-6 py-4">${formatCurrency(loan.principalAmount)}</td>
                     <td class="px-6 py-4">${formatDate(loan.loanDate)}</td>
-                    <td class="px-6 py-4 font-semibold ${outstandingBalance > 0 ? 'text-red-600' : 'text-green-600'}">${formatCurrency(outstandingBalance)}</td>
-                    <td class="px-6 py-4">
-                        <span class="px-2 py-1 text-xs font-medium rounded-full ${isActive ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-800'}">
-                            ${isActive ? 'সক্রিয়' : 'বন্ধ'}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <button class="view-details-btn text-indigo-600 hover:text-indigo-900 font-medium" data-id="${loan.id}">বিবরণ</button>
-                        ${isActive ? `<button class="add-payment-btn ml-4 text-blue-600 hover:text-blue-900 font-medium" data-id="${loan.id}">পেমেন্ট</button>` : ''}
-                    </td>
-                `;
+                    <td class="px-6 py-4 font-semibold ${outstandingBalance > 0 ? 'text-red-400' : 'text-green-400'}">${formatCurrency(outstandingBalance)}</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 text-xs font-medium rounded-full ${isActive ? 'bg-green-900 text-green-300' : 'bg-gray-700 text-gray-300'}">${isActive ? 'সক্রিয়' : 'বন্ধ'}</span></td>
+                    <td class="px-6 py-4 text-center"><button class="view-details-btn text-cyan-400 hover:text-cyan-200 font-medium" data-id="${loan.id}">বিবরণ</button> ${isActive ? `<button class="add-payment-btn ml-4 text-pink-400 hover:text-pink-200 font-medium" data-id="${loan.id}">পেমেন্ট</button>` : ''}</td>`;
                 loanList.appendChild(row);
             });
             updateDashboard();
@@ -420,129 +334,55 @@
              if(!loan) return;
              
              const { totalInterest, totalPaid, outstandingBalance } = calculateLoanDetails(loan);
-             const detailsContent = document.getElementById('detailsContent');
-             const customerDocsHtml = (loan.documents || []).map(doc => `
-                <a href="${doc.url}" target="_blank" class="text-indigo-600 hover:underline flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"></path></svg>
-                    ${doc.name}
-                </a>`).join('') || '<p class="text-gray-500">কোনো ডকুমেন্ট নেই।</p>';
+             const docsHtml = (loan.documents || []).map(doc => `<a href="${doc.url}" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"></path></svg>${doc.name}</a>`).join('') || '<p class="text-gray-400">কোনো ডকুমেন্ট নেই।</p>';
+             const paymentsHtml = (loan.payments || []).length > 0 ? (loan.payments || []).map(p => `<div class="flex justify-between items-center p-2 rounded bg-black/20"><div class="text-sm"><p>${formatDate(p.paymentDate)}</p>${p.receiptUrl ? `<a href="${p.receiptUrl}" target="_blank" class="text-xs text-blue-400 hover:underline">রিসিট দেখুন</a>` : ''}</div><p class="font-semibold">${formatCurrency(p.amount)}</p></div>`).join('') : '<p class="text-gray-400">কোনো পেমেন্ট নেই।</p>';
 
-             const paymentsHtml = (loan.payments.length > 0) ? loan.payments.map(p => `
-                <div class="flex justify-between items-center p-2 rounded ${p.amount > 0 ? 'bg-green-50' : ''}">
-                    <div>
-                        <p>${formatDate(p.paymentDate)}</p>
-                        ${p.receiptUrl ? `<a href="${p.receiptUrl}" target="_blank" class="text-xs text-blue-600 hover:underline">রিসিট দেখুন</a>` : ''}
-                    </div>
-                    <p class="font-semibold">${formatCurrency(p.amount)}</p>
-                </div>`).join('') : '<p class="text-gray-500">কোনো পেমেন্ট নেই।</p>';
-
-             detailsContent.innerHTML = `
+             document.getElementById('detailsContent').innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
-                    <div><strong class="text-gray-600">গ্রাহকের নাম:</strong> ${loan.customerName}</div>
-                    <div><strong class="text-gray-600">ফোন:</strong> ${loan.customerPhone}</div>
-                    <div class="md:col-span-2"><strong class="text-gray-600">ঠিকানা:</strong> ${loan.customerAddress}</div>
+                    <div><strong class="text-gray-400">গ্রাহকের নাম:</strong> ${loan.customerName}</div>
+                    <div><strong class="text-gray-400">ফোন:</strong> ${loan.customerPhone}</div>
+                    <div class="md:col-span-2"><strong class="text-gray-400">ঠিকানা:</strong> ${loan.customerAddress}</div>
                 </div>
-                <div class="border-t pt-4 mt-4">
-                     <h3 class="text-lg font-semibold text-gray-800 mb-2">লোনের সারসংক্ষেপ</h3>
-                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                         <div class="bg-gray-50 p-3 rounded-lg"><div class="text-xs text-gray-500">আসল</div><div class="font-bold text-lg">${formatCurrency(loan.principalAmount)}</div></div>
-                         <div class="bg-gray-50 p-3 rounded-lg"><div class="text-xs text-gray-500">মোট সুদ</div><div class="font-bold text-lg">${formatCurrency(totalInterest)}</div></div>
-                         <div class="bg-gray-50 p-3 rounded-lg"><div class="text-xs text-gray-500">মোট জমা</div><div class="font-bold text-lg">${formatCurrency(totalPaid)}</div></div>
-                         <div class="bg-red-50 p-3 rounded-lg"><div class="text-xs text-red-500">মোট বকেয়া</div><div class="font-bold text-lg text-red-600">${formatCurrency(outstandingBalance)}</div></div>
-                     </div>
-                </div>
-                <div class="border-t pt-4 mt-4 grid grid-cols-1 md:grid-cols-3 gap-x-8">
-                     <div class="md:col-span-1">
-                         <h3 class="text-lg font-semibold text-gray-800 mb-2">সোনার বিবরণ</h3>
-                         <ul class="list-disc list-inside space-y-1 text-sm">
-                             ${loan.goldItems.map(item => `<li>${item.description} - ${item.weightGrams} গ্রাম, ${item.purity} ক্যারেট</li>`).join('')}
-                         </ul>
-                     </div>
-                      <div class="md:col-span-1 mt-4 md:mt-0">
-                         <h3 class="text-lg font-semibold text-gray-800 mb-2">গ্রাহকের ডকুমেন্ট</h3>
-                         <div class="space-y-2 text-sm">${customerDocsHtml}</div>
-                     </div>
-                     <div class="md:col-span-1 mt-4 md:mt-0">
-                         <h3 class="text-lg font-semibold text-gray-800 mb-2">পেমেন্টের ইতিহাস</h3>
-                         <div class="max-h-40 overflow-y-auto text-sm space-y-1">${paymentsHtml}</div>
-                     </div>
-                </div>
-                <div class="border-t pt-4 mt-4 flex justify-end items-center space-x-4">
-                     <p class="text-sm text-gray-600 mr-auto">লোনের স্থিতি: <strong class="${loan.status === 'active' ? 'text-green-600' : 'text-gray-700'}">${loan.status === 'active' ? 'সক্রিয়' : 'বন্ধ'}</strong></p>
-                     <button class="delete-loan-btn bg-red-100 text-red-700 font-semibold py-2 px-4 rounded-lg hover:bg-red-200" data-id="${loan.id}">লোন মুছুন</button>
-                     ${loan.status === 'active' ? `<button class="toggle-status-btn bg-yellow-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-600" data-id="${loan.id}" data-status="closed">লোন বন্ধ করুন</button>` : `<button class="toggle-status-btn bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600" data-id="${loan.id}" data-status="active">লোন পুনরায় সক্রিয় করুন</button>`}
-                </div>
-             `;
+                <div class="border-t border-cyan-500/20 pt-4 mt-4"><h3 class="text-lg font-semibold mb-2">লোনের সারসংক্ষেপ</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"><div class="bg-black/20 p-3 rounded-lg"><div class="text-xs text-gray-400">আসল</div><div class="font-bold text-lg">${formatCurrency(loan.principalAmount)}</div></div><div class="bg-black/20 p-3 rounded-lg"><div class="text-xs text-gray-400">মোট সুদ</div><div class="font-bold text-lg">${formatCurrency(totalInterest)}</div></div><div class="bg-black/20 p-3 rounded-lg"><div class="text-xs text-gray-400">মোট জমা</div><div class="font-bold text-lg">${formatCurrency(totalPaid)}</div></div><div class="bg-red-900/30 p-3 rounded-lg"><div class="text-xs text-red-300">মোট বকেয়া</div><div class="font-bold text-lg text-red-400">${formatCurrency(outstandingBalance)}</div></div></div></div>
+                <div class="border-t border-cyan-500/20 pt-4 mt-4 grid grid-cols-1 md:grid-cols-3 gap-x-8"><div class="md:col-span-1"><h3 class="text-lg font-semibold mb-2">সোনার বিবরণ</h3><ul class="list-disc list-inside space-y-1 text-sm">${loan.goldItems.map(item => `<li>${item.description} - ${item.weightGrams} গ্রাম, ${item.purity} ক্যারেট</li>`).join('')}</ul></div><div class="md:col-span-1 mt-4 md:mt-0"><h3 class="text-lg font-semibold mb-2">গ্রাহকের ডকুমেন্ট</h3><div class="space-y-2 text-sm">${docsHtml}</div></div><div class="md:col-span-1 mt-4 md:mt-0"><h3 class="text-lg font-semibold mb-2">পেমেন্টের ইতিহাস</h3><div class="max-h-40 overflow-y-auto text-sm space-y-1">${paymentsHtml}</div></div></div>
+                <div class="border-t border-cyan-500/20 pt-4 mt-4 flex justify-end items-center space-x-4"><p class="text-sm text-gray-400 mr-auto">স্ট্যাটাস: <strong class="${loan.status === 'active' ? 'text-green-400' : 'text-gray-300'}">${loan.status === 'active' ? 'সক্রিয়' : 'বন্ধ'}</strong></p><button class="delete-loan-btn bg-red-900/50 text-red-300 font-semibold py-2 px-4 rounded-lg hover:bg-red-900/80" data-id="${loan.id}">মুছুন</button>${loan.status === 'active' ? `<button class="toggle-status-btn bg-yellow-600/50 text-yellow-200 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-600/80" data-id="${loan.id}" data-status="closed">বন্ধ করুন</button>` : `<button class="toggle-status-btn bg-green-600/50 text-green-200 font-semibold py-2 px-4 rounded-lg hover:bg-green-600/80" data-id="${loan.id}" data-status="active">সক্রিয় করুন</button>`}</div>`;
              openModal(detailsModal);
         }
 
-        // --- Firestore & Storage Logic ---
+        // Firestore & Storage Logic
         async function uploadFile(file, path) {
             if (!file) return null;
             const storageRef = ref(storage, path);
             await uploadBytes(storageRef, file);
-            return await getDownloadURL(storageRef);
+            return getDownloadURL(storageRef);
         }
 
         loanForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'সেভ হচ্ছে...';
+            submitBtn.disabled = true; submitBtn.textContent = 'সেভ হচ্ছে...';
 
             const loanId = document.getElementById('loanId').value;
             const customerDocFile = document.getElementById('customerDocument').files[0];
-            
-            const goldItems = Array.from(goldItemsContainer.querySelectorAll('div.grid')).map(node => ({
-                description: node.children[0].value,
-                weightGrams: parseFloat(node.children[1].value),
-                purity: node.children[2].value
-            }));
-
-            const loanData = {
-                customerName: document.getElementById('customerName').value,
-                customerPhone: document.getElementById('customerPhone').value,
-                customerAddress: document.getElementById('customerAddress').value,
-                principalAmount: parseFloat(document.getElementById('principalAmount').value),
-                loanDate: document.getElementById('loanDate').value,
-                goldItems: goldItems,
-                interestRateMonthly: INTEREST_RATE_MONTHLY,
-                documents: []
-            };
+            const goldItems = Array.from(goldItemsContainer.querySelectorAll('div.grid')).map(node => ({ description: node.children[0].value, weightGrams: parseFloat(node.children[1].value), purity: node.children[2].value }));
+            const loanData = { customerName: document.getElementById('customerName').value, customerPhone: document.getElementById('customerPhone').value, customerAddress: document.getElementById('customerAddress').value, principalAmount: parseFloat(document.getElementById('principalAmount').value), loanDate: document.getElementById('loanDate').value, goldItems: goldItems, interestRateMonthly: INTEREST_RATE_MONTHLY, documents: [], status: 'active', payments: [], createdAt: serverTimestamp() };
 
             try {
-                if (loanId) { // This part is for future edit functionality
-                    // update logic here
-                } else {
-                    loanData.status = 'active';
-                    loanData.payments = [];
-                    loanData.createdAt = serverTimestamp();
-                    
-                    const docRef = await addDoc(collection(db, `artifacts/${appId}/users/${userId}/gold_loans`), loanData);
-
-                    if (customerDocFile) {
-                        const filePath = `artifacts/${appId}/users/${userId}/loans/${docRef.id}/documents/${customerDocFile.name}`;
-                        const downloadURL = await uploadFile(customerDocFile, filePath);
-                        if (downloadURL) {
-                            await updateDoc(docRef, { documents: [{ name: customerDocFile.name, url: downloadURL }] });
-                        }
-                    }
+                const docRef = await addDoc(collection(db, `artifacts/${appId}/users/${userId}/gold_loans`), loanData);
+                if (customerDocFile) {
+                    const filePath = `artifacts/${appId}/users/${userId}/loans/${docRef.id}/documents/${customerDocFile.name}`;
+                    const downloadURL = await uploadFile(customerDocFile, filePath);
+                    if (downloadURL) await updateDoc(docRef, { documents: [{ name: customerDocFile.name, url: downloadURL }] });
                 }
                 closeModal(loanModal);
-            } catch (error) {
-                console.error("Error saving loan: ", error);
-                alert("ত্রুটি: লোন সেভ করা যায়নি।");
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'সেভ করুন';
-            }
+            } catch (error) { console.error("Error saving loan: ", error); alert("ত্রুটি: লোন সেভ করা যায়নি।"); } 
+            finally { submitBtn.disabled = false; submitBtn.textContent = 'সেভ করুন'; }
         });
         
         paymentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'যোগ হচ্ছে...';
+            submitBtn.disabled = true; submitBtn.textContent = 'যোগ হচ্ছে...';
 
             const loanId = document.getElementById('paymentLoanId').value;
             const receiptFile = document.getElementById('paymentReceipt').files[0];
@@ -554,73 +394,57 @@
                 const filePath = `artifacts/${appId}/users/${userId}/loans/${loanId}/receipts/${Date.now()}-${receiptFile.name}`;
                 receiptUrl = await uploadFile(receiptFile, filePath);
             }
-
-            const newPayment = {
-                amount: parseFloat(document.getElementById('paymentAmount').value),
-                paymentDate: document.getElementById('paymentDate').value,
-                receiptUrl: receiptUrl
-            };
+            const newPayment = { amount: parseFloat(document.getElementById('paymentAmount').value), paymentDate: document.getElementById('paymentDate').value, receiptUrl: receiptUrl };
             
             try {
                 const docRef = doc(db, `artifacts/${appId}/users/${userId}/gold_loans`, loanId);
-                await updateDoc(docRef, { payments: [...loan.payments, newPayment] });
+                await updateDoc(docRef, { payments: [...(loan.payments || []), newPayment] });
                 closeModal(paymentModal);
                 paymentForm.reset();
                 document.getElementById('paymentReceiptName').textContent = '';
-            } catch (error) {
-                console.error("Error adding payment:", error);
-                alert("ত্রুটি: পেমেন্ট যোগ করা যায়নি।");
-            } finally {
-                 submitBtn.disabled = false;
-                 submitBtn.textContent = 'যোগ করুন';
-            }
+            } catch (error) { console.error("Error adding payment:", error); alert("ত্রুটি: পেমেন্ট যোগ করা যায়নি।"); }
+            finally { submitBtn.disabled = false; submitBtn.textContent = 'যোগ করুন'; }
         });
 
         document.body.addEventListener('click', async (e) => {
-            if (e.target.classList.contains('view-details-btn')) {
-                renderLoanDetails(e.target.dataset.id);
-            }
-            if (e.target.classList.contains('add-payment-btn')) {
-                const loanId = e.target.dataset.id;
+            const target = e.target.closest('button');
+            if (!target) return;
+
+            const loanId = target.dataset.id;
+            if (target.classList.contains('view-details-btn')) renderLoanDetails(loanId);
+            if (target.classList.contains('add-payment-btn')) {
                 document.getElementById('paymentLoanId').value = loanId;
                 document.getElementById('paymentDate').valueAsDate = new Date();
                 paymentForm.reset();
                 document.getElementById('paymentReceiptName').textContent = '';
                 openModal(paymentModal);
             }
-            if(e.target.classList.contains('toggle-status-btn')) {
-                const loanId = e.target.dataset.id;
-                const newStatus = e.target.dataset.status;
+            if (target.classList.contains('toggle-status-btn')) {
+                const newStatus = target.dataset.status;
                 const docRef = doc(db, `artifacts/${appId}/users/${userId}/gold_loans`, loanId);
                 await updateDoc(docRef, { status: newStatus });
                 closeModal(detailsModal);
             }
-            if(e.target.classList.contains('delete-loan-btn')) {
-                const loanId = e.target.dataset.id;
-                if (window.prompt("এই লোনটি এবং এর সাথে যুক্ত সমস্ত ডকুমেন্ট মুছে ফেলতে নিশ্চিত? নিশ্চিত করতে 'delete' টাইপ করুন।") === 'delete') {
+            if (target.classList.contains('delete-loan-btn')) {
+                if (prompt("এই লোনটি এবং এর সাথে যুক্ত সমস্ত ডকুমেন্ট মুছে ফেলতে নিশ্চিত? নিশ্চিত করতে 'delete' টাইপ করুন।") === 'delete') {
                     try {
-                        const docRef = doc(db, `artifacts/${appId}/users/${userId}/gold_loans`, loanId);
-                        await deleteDoc(docRef);
-                        
+                        await deleteDoc(doc(db, `artifacts/${appId}/users/${userId}/gold_loans`, loanId));
                         const folderRef = ref(storage, `artifacts/${appId}/users/${userId}/loans/${loanId}`);
                         const res = await listAll(folderRef);
-                        const allFiles = [...res.items, ...res.prefixes.flatMap(p => listAll(p).then(r => r.items))];
-                        await Promise.all(allFiles.map(fileRef => deleteObject(fileRef)));
-
+                        await Promise.all(res.items.map(deleteObject));
+                        res.prefixes.forEach(async folder => {
+                           const nestedRes = await listAll(folder);
+                           await Promise.all(nestedRes.items.map(deleteObject));
+                        });
                         closeModal(detailsModal);
-                    } catch(error) {
-                        console.error("Error deleting loan and files:", error);
-                        alert("ত্রুটি: লোন মোছা যায়নি।");
-                    }
+                    } catch(error) { console.error("Error deleting loan:", error); alert("ত্রুটি: লোন মোছা যায়নি।"); }
                 }
             }
         });
 
         async function setupFirestoreListeners() {
             if (loansUnsubscribe) loansUnsubscribe();
-            const loansCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/gold_loans`);
-            const q = query(loansCollectionRef);
-            
+            const q = query(collection(db, `artifacts/${appId}/users/${userId}/gold_loans`));
             loansUnsubscribe = onSnapshot(q, (snapshot) => {
                 allLoans = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 allLoans.sort((a, b) => {
@@ -638,7 +462,6 @@
                 db = getFirestore(app);
                 auth = getAuth(app);
                 storage = getStorage(app);
-
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
                         userId = user.uid;
@@ -649,11 +472,8 @@
                     }
                 });
 
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
+                else await signInAnonymously(auth);
             } catch (error) {
                 console.error("Initialization failed:", error);
                 loader.innerText = "অ্যাপ্লিকেশন শুরু করতে ব্যর্থ হয়েছে।";
