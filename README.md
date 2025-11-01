@@ -1,2 +1,0 @@
-# solemanjewellersgoldloan
-soleman jewellersgold loan
