@@ -1,550 +1,234 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soleman Jewellers - Ledger</title>
-    <style>
-        /* CSS কোড: অ্যাপটির ডিজাইন */
-        :root {
-            --bg-color: #121212;
-            --surface-color: #1E1E1E;
-            --primary-text: #E0E0E0;
-            --secondary-text: #A0A0A0;
-            --red-color: #F25C54;
-            --green-color: #4CAF50;
-            --blue-accent: #3F51B5;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--primary-text);
-        }
-
-        .app-container {
-            max-width: 450px;
-            margin: auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header */
-        .app-header {
-            padding: 15px;
-            background-color: var(--surface-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .app-header h1 {
-            font-size: 20px;
-        }
-
-        /* Summary Section */
-        .summary-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 15px;
-        }
-
-        .summary-box {
-            background-color: var(--surface-color);
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .summary-box p {
-            font-size: 14px;
-            color: var(--secondary-text);
-        }
-
-        .summary-box .amount {
-            font-size: 22px;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        .summary-box .amount.give {
-            color: var(--red-color);
-        }
-
-        .summary-box .amount.get {
-            color: var(--green-color);
-        }
-        
-        /* Customer List */
-        .customer-list-container {
-            padding: 0 15px;
-            flex-grow: 1;
-        }
-
-        .customer-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #333;
-            cursor: pointer;
-        }
-        
-        .customer-item:last-child {
-            border-bottom: none;
-        }
-
-        .customer-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--blue-accent);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-
-        .customer-info {
-            flex-grow: 1;
-        }
-        
-        .customer-info .name {
-            font-size: 16px;
-        }
-
-        .customer-info .timestamp {
-            font-size: 12px;
-            color: var(--secondary-text);
-        }
-
-        .customer-balance .amount {
-            font-weight: bold;
-        }
-
-        .customer-balance .label {
-            font-size: 12px;
-            color: var(--secondary-text);
-            text-align: right;
-        }
-
-        .amount.red { color: var(--red-color); }
-        .amount.green { color: var(--green-color); }
-
-        /* Floating Add Button */
-        .fab {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 56px;
-            height: 56px;
-            background-color: var(--red-color);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        /* Modal for adding customer/transaction */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: var(--surface-color);
-            padding: 20px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .modal-content h2 {
-            margin-bottom: 20px;
-        }
-
-        .modal-content input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            border: 1px solid #555;
-            background-color: #333;
-            color: var(--primary-text);
-        }
-        
-        .modal-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
-        .modal-buttons button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .modal-buttons .save-btn {
-            background-color: var(--green-color);
-            color: white;
-        }
-        .modal-buttons .cancel-btn {
-            background-color: #555;
-            color: white;
-        }
-        
-        /* Customer Detail Page */
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
-
-        .detail-header {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background-color: var(--surface-color);
-        }
-
-        .back-btn {
-            font-size: 24px;
-            margin-right: 15px;
-            cursor: pointer;
-        }
-
-        .detail-summary {
-            padding: 20px;
-            background-color: var(--surface-color);
-            margin: 15px;
-            border-radius: 8px;
-        }
-
-        .transaction-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #333;
-        }
-        .transaction-info p {
-            font-size: 16px;
-        }
-        .transaction-info span {
-            font-size: 12px;
-            color: var(--secondary-text);
-        }
-
-        .detail-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 15px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--bg-color);
-        }
-        .detail-actions button {
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .detail-actions .gave-btn {
-            background-color: var(--red-color);
-            color: white;
-        }
-        .detail-actions .got-btn {
-            background-color: var(--green-color);
-            color: white;
-        }
-
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>সোলেমান জুয়েলার্স – এডভান্সড জুয়েলারি ক্যালকুলেটর</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <svg width="0" height="0" style="display:none;">
+    <symbol id="icon-calculator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="10" x2="16" y2="18"/><line x1="12" y1="10" x2="12" y2="18"/><line x1="8" y1="10" x2="8" y2="18"/></symbol>
+    <symbol id="icon-exchange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></symbol>
+    <symbol id="icon-sale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></symbol>
+    <symbol id="icon-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></symbol>
+    <symbol id="icon-balance" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5a5 5 0 0110 0m-5 0V3m0 2v13.5m-3.5-3.5h7m-12 0L8.5 7.5m10 0l-5.5 8.5"/></symbol>
+    <symbol id="icon-recycle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4V2h10v2"/><path d="M10 18a4 4 0 0 0 4-4h4V7H6v7h4a4 4 0 0 0 4 4z"/><path d="M14 14v4"/><path d="M10 14v4"/><path d="M12 18v-4"/></symbol>
+    <symbol id="icon-preview" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="icon-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+  </svg>
 
-    <div class="app-container">
+  <div class="header-bar">
+    <h2><svg class="icon" style="width: 32px; height: 32px;"><use href="#icon-calculator"/></svg> সোলেমান জুয়েলার্স</h2>
+    <div class="info">
+      <div id="todayDate"></div>
+      <div style="margin-top: 5px;">২৪ ক্যারেট: <span id="liveGoldPrice24ct" class="live-price">--</span></div>
+      <div style="margin-top: 5px;">২২ ক্যারেট: <span id="liveGoldPrice22ct" class="live-price">--</span></div>
+      <button class="btn btn-sm" onclick="fetchLivePrice()">লাইভ মূল্য দেখুন</button>
+    </div>
+  </div>
 
-        <div id="main-page" class="page active">
-            <header class="app-header">
-                <h1>Soleman Jewellers</h1>
-                <span>&#x1F4B0;</span> </header>
+  <div class="container">
+    <div class="tab-buttons">
+      <button class="tab-button active" onclick="openTab('profit')"><svg class="icon"><use href="#icon-sale"/></svg>কেনা-বেচা</button>
+      <button class="tab-button" onclick="openTab('oldToNew')"><svg class="icon"><use href="#icon-recycle"/></svg>পুরাতন এক্সচেঞ্জ</button>
+      <button class="tab-button" onclick="openTab('exchange')"><svg class="icon"><use href="#icon-exchange"/></svg>সোনা এক্সচেঞ্জ</button>
+      <button class="tab-button" onclick="openTab('silverExchange')"><svg class="icon"><use href="#icon-exchange"/></svg>চাঁদি এক্সচেঞ্জ</button>
+      <button class="tab-button" onclick="openTab('history')"><svg class="icon"><use href="#icon-history"/></svg>বিল হিস্ট্রি</button>
+    </div>
 
-            <main>
-                <section class="summary-section">
-                    <div class="summary-box">
-                        <p>You will give (পাবেন)</p>
-                        <div class="amount give" id="total-give">₹0</div>
-                    </div>
-                    <div class="summary-box">
-                        <p>You will get (পাবেন)</p>
-                        <div class="amount get" id="total-get">₹0</div>
-                    </div>
-                </section>
-
-                <div class="customer-list-container" id="customer-list">
-                    </div>
-            </main>
-
-            <div class="fab" id="add-customer-btn">+</div>
+    <div id="profit" class="tab-pane active">
+      <div class="card">
+        <h3>⭐ কেনা-বেচার হিসাব</h3>
+        <h4>গ্রাহকের তথ্য</h4>
+        <div class="inline-row">
+            <div><label>গ্রাহকের নাম</label><input id="customerName" type="text" placeholder="নাম লিখুন"></div>
+            <div><label>ফোন নম্বর</label><input id="customerPhone" type="tel" placeholder="নম্বর লিখুন"></div>
         </div>
+        <hr style="margin-top: 24px">
+        <h4>হিসাবের বিবরণ</h4>
+        <div class="inline-row">
+          <div><label>২৪ ক্যারেট সোনার দাম (১০ গ্রাম) – ₹</label><input id="basePrice24ct" type="number" step="100" value="126000" min="0" /></div>
+          <div><label>GST (%)</label><input id="gstPercent" type="number" step="0.1" value="3" min="0" /></div>
+        </div>
+        <div class="inline-row">
+          <div><label>সোনার ওজন (গ্রাম)</label><input id="profitWeight" type="number" step="0.001" value="10" min="0" /></div>
+          <div><label>ওজন (আনা)</label><input id="profitWeightInAna" type="number" step="0.001" placeholder="আনা লিখুন" min="0" /></div>
+          <div><label>মজুরি প্রতি গ্রাম – ₹</label><input id="makingChargePerGram" type="number" step="1" value="500" min="0" /></div>
+        </div>
+        <label>সোনার কোয়ালিটি</label>
+        <select id="goldQuality">
+            <option value="Licence">হলমার্ক 22K916</option>
+            <option value="kdm">KDM 20K820</option>
+            <option value="bengali">বাংলা সোনা 18K750</option>
+            <option value="desi_bengali">দেশি বাংলা সোনা 15K650</option>
+        </select>
+        <div id="profitOutput" class="results">ফলাফল এখানে আসবে...</div>
+        <div class="progress-bar" id="profitProgress"><div class="progress-fill"></div></div>
+        <div style="margin-top: 16px; display:flex; gap: 12px; flex-wrap: wrap;">
+          <button class="btn" onclick="saveAndPrintBill()">💾 সেভ ও প্রিন্ট করুন</button>
+          <button class="btn btn-alt" onclick="previewBill()">👁️ বিল প্রিভিউ দেখুন</button>
+          <button class="btn btn-alt" onclick="resetProfit()">♻ রিসেট করুন</button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="oldToNew" class="tab-pane">
+        <div class="card">
+            <h3><svg class="icon"><use href="#icon-recycle"/></svg> পুরাতন সোনা দিয়ে নতুন গহনা তৈরি</h3>
+            
+            <h4>গ্রাহকের বিবরণ</h4>
+            <div class="inline-row">
+                <div><label>গ্রাহকের নাম</label><input id="otn_customerName" type="text" placeholder="নাম লিখুন" /></div>
+                <div><label>মোবাইল নম্বর</label><input id="otn_customerMobile" type="tel" placeholder="নম্বর লিখুন" /></div>
+            </div>
 
-        <div id="detail-page" class="page">
-            <header class="detail-header">
-                <span class="back-btn" id="back-to-main">&larr;</span>
-                <h2 id="detail-customer-name"></h2>
-            </header>
-            <main>
-                <div class="detail-summary">
-                    <p>Net Balance (মোট বাকি)</p>
-                    <div class="amount" id="detail-customer-balance"></div>
-                </div>
-                <div id="transaction-list">
-                    </div>
-            </main>
-            <div class="detail-actions">
-                <button class="gave-btn" id="add-gave-btn">You Gave ₹</button>
-                <button class="got-btn" id="add-got-btn">You Got ₹</button>
+            <h4>পুরাতন গহনার বিবরণ</h4>
+            <div class="inline-row">
+                <div><label>পুরানো সোনার ওজন (গ্রাম)</label><input id="otn_OldWeight" type="number" step="0.001" value="10" min="0" /></div>
+                <div><label>পুরানো সোনার ওজন (আনা)</label><input id="otn_OldWeightInAna" type="number" step="0.001" placeholder="আনা লিখুন" min="0" /></div>
+            </div>
+            <label>পুরানো সোনার প্রকার</label>
+            <select id="otn_OldType">
+                <option value="Licence">হলমার্ক 22K916</option>
+                <option value="bengali" selected>বাংলা সোনা 18K750</option>
+                <option value="kdm_850">KDM 20K850</option>
+                <option value="desi_bengali">দেশি বাংলা সোনা 15K650</option>
+            </select>
+            
+            <h4>নতুন গহনার বিবরণ</h4>
+            <div class="inline-row">
+                <div><label>নতুন গহনার ওজন (গ্রাম)</label><input id="otn_NewWeight" type="number" step="0.001" value="10" min="0" /></div>
+                <div><label>নতুন গহনার ওজন (আনা)</label><input id="otn_NewWeightInAna" type="number" step="0.001" placeholder="আনা লিখুন" min="0" /></div>
+            </div>
+            <label>নতুন গহনার প্রকার</label>
+            <select id="otn_NewType">
+                <option value="Licence">হলমার্ক 22K916</option>
+                <option value="kdm_850">KDM 20K850</option>
+                <option value="bengali">বাংলা সোনা 18K750</option>
+                <option value="desi_bengali">দেশি বাংলা সোনা 15K650</option>
+            </select>
+
+            <hr>
+            <h4>মূল্য ও চার্জ</h4>
+            <div class="inline-row">
+                <div><label>২৪ ক্যারেট সোনার দাম (১০ গ্রাম) – ₹</label><input id="otn_BasePrice24ct" type="number" step="100" value="126000" min="0" /></div>
+                <div><label>মজুরি প্রতি গ্রাম – ₹</label><input id="otn_MakingCharge" type="number" step="1" value="500" min="0" /></div>
+                <div><label>GST (%)</label><input id="otn_GstPercent" type="number" step="0.1" value="3" min="0" /></div>
+            </div>
+            
+            <div id="otn_oldToNewOutput" class="results">ফলাফল এখানে আসবে...</div>
+            <div class="progress-bar" id="otnProgress"><div class="progress-fill"></div></div>
+
+            <div style="margin-top: 16px; display:flex; gap: 12px; flex-wrap: wrap; justify-content: flex-start;">
+                <button class="btn" onclick="otn_printBill()"><svg class="icon"><use href="#icon-print"/></svg> সেভ ও প্রিন্ট করুন</button>
+                <button class="btn btn-alt" onclick="otn_previewBill()"><svg class="icon"><use href="#icon-preview"/></svg> বিল প্রিভিউ দেখুন</button>
+                <button class="btn btn-alt" onclick="otn_resetOldToNew()">♻ রিসেট করুন</button>
             </div>
         </div>
     </div>
 
-    <div id="customer-modal" class="modal">
-        <div class="modal-content">
-            <h2>Add New Customer</h2>
-            <input type="text" id="customer-name-input" placeholder="Customer Name">
-            <div class="modal-buttons">
-                <button class="cancel-btn" id="cancel-customer-btn">Cancel</button>
-                <button class="save-btn" id="save-customer-btn">Save</button>
-            </div>
+    <div id="exchange" class="tab-pane">
+      <div class="card">
+        <h3>🔄 সোনা এক্সচেঞ্জ</h3>
+        <h4>📦 নতুন গহনা</h4>
+        <div class="inline-row">
+          <div><label>ওজন (গ্রাম)</label><input id="newWeight" type="number" step="0.001" value="0" min="0" /></div>
+          <div><label>ওজন (আনা)</label><input id="newWeightInAna" type="number" step="0.001" placeholder="আনা লিখুন" min="0" /></div>
+          <div><label>দৈনিক দাম (১০g) – ₹</label><input id="newPrice11" type="number" step="0.01" value="126000" min="0" /></div>
+        </div>
+        <label style="margin-top:12px">মজুরি</label>
+        <div class="inline-row">
+          <select id="labourType"><option value="pergram" selected>Per Gram (₹/g)</option><option value="percent">Percent (%)</option><option value="fixed">Fixed (টাকা)</option></select>
+          <input id="labourValue" type="number" step="0.01" value="500" min="0" placeholder="মজুরির পরিমাণ" />
+        </div>
+        <h4>♻ পুরাতন গহনা</h4>
+        <div class="inline-row">
+          <div><label>ওজন (গ্রাম)</label><input id="oldWeight" type="number" step="0.001" value="0" min="0" /></div>
+          <div><label>ওজন (আনা)</label><input id="oldWeightInAna" type="number" step="0.001" placeholder="আনা লিখুন" min="0" /></div>
+          <div><label>দৈনিক দাম (১০g) – ₹</label><input id="oldPrice11" type="number" step="0.01" value="126000" min="0" /></div>
+          <div><label>কাটছাঁট (%)</label><input id="deduct" type="number" step="0.01" value="35" min="0" max="100" /></div>
+        </div>
+        <div style="margin-top: 16px; display: flex; align-items: center; background-color: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+          <input type="checkbox" id="includeGstExchange" checked style="width: 18px; height: 18px; margin-top: 0; margin-right: 10px;">
+          <label for="includeGstExchange" style="display: inline-block; margin-top: 0; font-weight: 600; cursor: pointer;">GST যোগ করুন</label>
+        </div>
+        <div id="exchangeOutput" class="results">ফলাফল এখানে আসবে...</div>
+        <div class="progress-bar" id="exchangeProgress"><div class="progress-fill"></div></div>
+        <div style="margin-top: 16px; display:flex; gap: 12px; flex-wrap: wrap;">
+          <button class="btn" onclick="calculateExchange(false)">📊 হিসাব দেখুন</button>
+          <button class="btn btn-alt" onclick="previewExchange()">👁️ এক্সচেঞ্জ প্রিভিউ দেখুন</button>
+          <button class="btn btn-alt" onclick="resetExchange()">♻ রিসেট করুন</button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="silverExchange" class="tab-pane">
+      <div class="card">
+        <h3>🔄 চাঁদি এক্সচেঞ্জ</h3>
+        <h4>📦 নতুন চাঁদি</h4>
+        <div class="inline-row">
+          <div><label>ওজন (গ্রাম)</label><input id="newWeightSilver" type="number" step="0.001" value="0" min="0" /></div>
+          <div><label>ওজন (আনা)</label><input id="newWeightSilverInAna" type="number" step="0.001" placeholder="আনা লিখুন" min="0" /></div>
+          <div><label>দৈনিক দাম (১০g) – ₹</label><input id="newPrice11Silver" type="number" step="0.01" value="1310" min="0" /></div>
+        </div>
+        <label style="margin-top:12px">মজুরি</label>
+        <div class="inline-row">
+          <select id="labourTypeSilver"><option value="pergram">Per Gram (₹/g)</option><option value="percent" selected>Percent (%)</option><option value="fixed">Fixed (টাকা)</option></select>
+          <input id="labourValueSilver" type="number" step="0.01" value="10" min="0" placeholder="মজুরির পরিমাণ" />
+        </div>
+        <h4>♻ পুরাতন চাঁদি</h4>
+        <div class="inline-row">
+          <div><label>ওজন (গ্রাম)</label><input id="oldWeightSilver" type="number" step="0.001" value="0" min="0" /></div>
+          <div><label>ওজন (আনা)</label><input id="oldWeightSilverInAna" type="number" step="0.001" placeholder="আনা লিখুন" min="0" /></div>
+          <div><label>দৈনিক দাম (১০g) – ₹</label><input id="oldPrice11Silver" type="number" step="0.01" value="1310" min="0" /></div>
+          <div><label>কাটছাঁট (%)</label><input id="deductSilver" type="number" step="0.01" value="35" min="0" max="100" /></div>
+        </div>
+        <div style="margin-top: 16px; display: flex; align-items: center; background-color: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+          <input type="checkbox" id="includeGstExchangeSilver" checked style="width: 18px; height: 18px; margin-top: 0; margin-right: 10px;">
+          <label for="includeGstExchangeSilver" style="display: inline-block; margin-top: 0; font-weight: 600; cursor: pointer;">GST যোগ করুন</label>
+        </div>
+        <div id="exchangeOutputSilver" class="results">ফলাফল এখানে আসবে...</div>
+        <div class="progress-bar" id="silverProgress"><div class="progress-fill"></div></div>
+        <div style="margin-top: 16px; display:flex; gap: 12px; flex-wrap: wrap;">
+          <button class="btn" onclick="calculateSilverExchange(false)">📊 হিসাব দেখুন</button>
+          <button class="btn btn-alt" onclick="previewSilverExchange()">👁️ এক্সচেঞ্জ প্রিভিউ দেখুন</button>
+          <button class="btn btn-alt" onclick="resetSilverExchange()">♻ রিসেট করুন</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="history" class="tab-pane">
+        <div class="card">
+            <h3>📜 সেভ করা বিলের তালিকা</h3>
+            <div id="billHistoryContainer" class="bill-history-list">
+                </div>
         </div>
     </div>
     
-    <div id="transaction-modal" class="modal">
-        <div class="modal-content">
-            <h2 id="transaction-modal-title">Add Transaction</h2>
-            <input type="number" id="transaction-amount-input" placeholder="Amount">
-            <input type="text" id="transaction-note-input" placeholder="Details (Optional)">
-            <div class="modal-buttons">
-                <button class="cancel-btn" id="cancel-transaction-btn">Cancel</button>
-                <button class="save-btn" id="save-transaction-btn">Save</button>
-            </div>
-        </div>
+  </div>
+
+  <footer class="site-footer">
+    <p><strong>সোলেমান জুয়েলার্স</strong></p>
+    <p>ঠিকানা: ভাদুরিয়াপাড়া বাজার | মোবাইল: 8967575884</p>
+    <p>GSTIN: 19BMZPR4273E1Z9 | BIS Licence: HM/C-5191720314</p>
+  </footer>
+
+  <div id="billDetailsModal" class="modal-overlay">
+    <div class="modal-content">
+        <button id="modalCloseBtn" class="modal-close">&times;</button>
+        <h3 id="modalTitle" style="margin-top:0; border-color: #eee;">বিলের বিস্তারিত বিবরণ</h3>
+        <div id="modalBody"></div>
     </div>
+  </div>
+  
+  <div class="modal-overlay" id="otn_bill-preview-modal">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="otn_closeModal()">&times;</button>
+      <div id="otn_bill-preview-content"></div>
+    </div>
+  </div>
 
-
-    <script>
-        // JavaScript কোড: অ্যাপটির কার্যকারিতা
-        document.addEventListener('DOMContentLoaded', () => {
-            // DOM Elements
-            const mainPage = document.getElementById('main-page');
-            const detailPage = document.getElementById('detail-page');
-            const customerModal = document.getElementById('customer-modal');
-            const transactionModal = document.getElementById('transaction-modal');
-
-            // --- State Management (using localStorage) ---
-            let state = {
-                customers: JSON.parse(localStorage.getItem('customers')) || [],
-                activeCustomerId: null,
-                transactionType: null // 'gave' or 'got'
-            };
-
-            // --- Render Functions ---
-            function render() {
-                // Clear existing content
-                document.getElementById('customer-list').innerHTML = '';
-                
-                let totalGet = 0;
-                let totalGive = 0;
-
-                state.customers.forEach(customer => {
-                    // Calculate balance for each customer
-                    let balance = 0;
-                    customer.transactions.forEach(t => {
-                        if (t.type === 'get') balance += t.amount;
-                        if (t.type === 'give') balance -= t.amount;
-                    });
-                    
-                    if(balance > 0) totalGet += balance;
-                    if(balance < 0) totalGive += Math.abs(balance);
-
-                    // Create customer list item
-                    const item = document.createElement('div');
-                    item.className = 'customer-item';
-                    item.dataset.id = customer.id;
-                    item.innerHTML = `
-                        <div class="customer-avatar">${customer.name.substring(0, 2).toUpperCase()}</div>
-                        <div class="customer-info">
-                            <p class="name">${customer.name}</p>
-                            <span class="timestamp">Last updated: ${customer.transactions.length > 0 ? new Date(customer.transactions[customer.transactions.length-1].date).toLocaleDateString() : 'No transactions'}</span>
-                        </div>
-                        <div class="customer-balance">
-                            <p class="amount ${balance >= 0 ? 'green' : 'red'}">₹${Math.abs(balance).toLocaleString()}</p>
-                            <p class="label">${balance >= 0 ? "You'll Get" : "You'll Give"}</p>
-                        </div>
-                    `;
-                    item.addEventListener('click', () => showDetailPage(customer.id));
-                    document.getElementById('customer-list').appendChild(item);
-                });
-
-                // Update total summary
-                document.getElementById('total-get').innerText = `₹${totalGet.toLocaleString()}`;
-                document.getElementById('total-give').innerText = `₹${totalGive.toLocaleString()}`;
-            }
-
-            function renderDetailPage() {
-                const customer = state.customers.find(c => c.id === state.activeCustomerId);
-                if (!customer) return;
-
-                document.getElementById('detail-customer-name').innerText = customer.name;
-                
-                let balance = 0;
-                const transactionList = document.getElementById('transaction-list');
-                transactionList.innerHTML = '';
-
-                customer.transactions.forEach(t => {
-                    balance += (t.type === 'get' ? t.amount : -t.amount);
-                    const item = document.createElement('div');
-                    item.className = 'transaction-item';
-                    item.innerHTML = `
-                        <div class="transaction-info">
-                            <p>${t.note || (t.type === 'get' ? 'Amount Received' : 'Amount Paid')}</p>
-                            <span>${new Date(t.date).toLocaleString()}</span>
-                        </div>
-                        <p class="amount ${t.type === 'get' ? 'green' : 'red'}">₹${t.amount.toLocaleString()}</p>
-                    `;
-                    transactionList.appendChild(item);
-                });
-                
-                const balanceEl = document.getElementById('detail-customer-balance');
-                balanceEl.innerText = `₹${Math.abs(balance).toLocaleString()}`;
-                balanceEl.className = `amount ${balance >= 0 ? 'green' : 'red'}`;
-            }
-
-            // --- Page Navigation ---
-            function showMainPage() {
-                mainPage.classList.add('active');
-                detailPage.classList.remove('active');
-                state.activeCustomerId = null;
-                render();
-            }
-
-            function showDetailPage(customerId) {
-                state.activeCustomerId = customerId;
-                mainPage.classList.remove('active');
-                detailPage.classList.add('active');
-                renderDetailPage();
-            }
-
-            // --- Modal Handling ---
-            function showCustomerModal() {
-                customerModal.style.display = 'flex';
-            }
-            function hideCustomerModal() {
-                customerModal.style.display = 'none';
-                document.getElementById('customer-name-input').value = '';
-            }
-
-            function showTransactionModal(type) {
-                state.transactionType = type;
-                document.getElementById('transaction-modal-title').innerText = type === 'gave' ? 'You Gave' : 'You Got';
-                transactionModal.style.display = 'flex';
-            }
-            function hideTransactionModal() {
-                transactionModal.style.display = 'none';
-                document.getElementById('transaction-amount-input').value = '';
-                document.getElementById('transaction-note-input').value = '';
-                state.transactionType = null;
-            }
-            
-            // --- Data Logic ---
-            function saveState() {
-                localStorage.setItem('customers', JSON.stringify(state.customers));
-            }
-
-            function addCustomer() {
-                const name = document.getElementById('customer-name-input').value.trim();
-                if (!name) {
-                    alert('Please enter a customer name.');
-                    return;
-                }
-                const newCustomer = {
-                    id: Date.now(),
-                    name: name,
-                    transactions: []
-                };
-                state.customers.push(newCustomer);
-                saveState();
-                render();
-                hideCustomerModal();
-            }
-            
-            function addTransaction() {
-                const amount = parseFloat(document.getElementById('transaction-amount-input').value);
-                const note = document.getElementById('transaction-note-input').value.trim();
-                if (isNaN(amount) || amount <= 0) {
-                    alert('Please enter a valid amount.');
-                    return;
-                }
-                
-                const customer = state.customers.find(c => c.id === state.activeCustomerId);
-                if (customer) {
-                    const newTransaction = {
-                        id: Date.now(),
-                        type: state.transactionType === 'gave' ? 'give' : 'get',
-                        amount: amount,
-                        note: note,
-                        date: new Date().toISOString()
-                    };
-                    customer.transactions.push(newTransaction);
-                    saveState();
-                    renderDetailPage();
-                    hideTransactionModal();
-                }
-            }
-
-
-            // --- Event Listeners ---
-            document.getElementById('add-customer-btn').addEventListener('click', showCustomerModal);
-            document.getElementById('cancel-customer-btn').addEventListener('click', hideCustomerModal);
-            document.getElementById('save-customer-btn').addEventListener('click', addCustomer);
-
-            document.getElementById('back-to-main').addEventListener('click', showMainPage);
-            
-            document.getElementById('add-gave-btn').addEventListener('click', () => showTransactionModal('gave'));
-            document.getElementById('add-got-btn').addEventListener('click', () => showTransactionModal('got'));
-            document.getElementById('cancel-transaction-btn').addEventListener('click', hideTransactionModal);
-            document.getElementById('save-transaction-btn').addEventListener('click', addTransaction);
-
-            // Initial render
-            render();
-        });
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
