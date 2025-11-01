@@ -305,6 +305,7 @@ function previewSilverExchange() {
     $('#billDetailsModal').style.display = 'flex';
 }
 
+
 function saveAndPrintBill() {
     const calcData = calculateProfit(true);
     if (!calcData) { alert("প্রিন্ট করার আগে সঠিক হিসাব প্রয়োজন।"); return; }
