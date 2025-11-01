@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="bn">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>সোলেমান জুয়েলার্স – এডভান্সড জুয়েলারি ক্যালকুলেটর</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>সোলেমান জুয়েলার্স – এডভান্সড জুয়েলারি ক্যালকুলেটর</title>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <svg width="0" height="0" style="display:none;">
     <symbol id="icon-calculator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="10" x2="16" y2="18"/><line x1="12" y1="10" x2="12" y2="18"/><line x1="8" y1="10" x2="8" y2="18"/></symbol>
     <symbol id="icon-exchange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></symbol>
@@ -25,8 +27,6 @@
       <div style="margin-top: 5px;">২৪ ক্যারেট: <span id="liveGoldPrice24ct" class="live-price">--</span></div>
       <div style="margin-top: 5px;">২২ ক্যারেট: <span id="liveGoldPrice22ct" class="live-price">--</span></div>
       <button class="btn btn-sm" onclick="fetchLivePrice()">লাইভ মূল্য দেখুন</button>
-      <!-- নতুন বাটন যোগ করা হয়েছে: নতুন থিমের জন্য -->
-      <button class="btn btn-sm btn-alt" onclick="openNewTheme()" style="margin-top: 5px;">নতুন থিম দেখুন</button>
     </div>
   </div>
 
@@ -231,6 +231,7 @@
     </div>
   </div>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
+
 </body>
 </html>
